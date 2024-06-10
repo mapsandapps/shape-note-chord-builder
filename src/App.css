@@ -1,0 +1,12 @@
+.chord {
+  border: 1px solid black;
+  border-radius: 2px;
+  display: inline-block;
+  padding: 8px;
+  margin: 8px;
+}
+
+.chord-name {
+  font-family: 'Courier New', Courier, monospace;
+  border-bottom: 1px solid black;
+}
