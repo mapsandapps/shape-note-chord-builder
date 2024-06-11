@@ -30,34 +30,36 @@ function App() {
         </label>
       </fieldset>
       <table>
-        <tr>
-          <td>Melody:</td>
-          <td>
-            <PitchPicker mode={mode} />
-          </td>
-        </tr>
-        <tr>
-          <td>Any:</td>
-          <td>
-            <PitchPicker mode={mode} />
-          </td>
-        </tr>
-        <tr>
-          <td>Any:</td>
-          <td>
-            <PitchPicker mode={mode} />
-          </td>
-        </tr>
-        <tr>
-          <td>Bass:</td>
-          <td>
-            <PitchPicker mode={mode} />
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Melody:</td>
+            <td>
+              <PitchPicker mode={mode} />
+            </td>
+          </tr>
+          <tr>
+            <td>Any:</td>
+            <td>
+              <PitchPicker mode={mode} />
+            </td>
+          </tr>
+          <tr>
+            <td>Any:</td>
+            <td>
+              <PitchPicker mode={mode} />
+            </td>
+          </tr>
+          <tr>
+            <td>Bass:</td>
+            <td>
+              <PitchPicker mode={mode} />
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       {majorChords.map((chord) => (
-        <Chord chord={chord} mode={mode} />
+        <Chord chord={chord} mode={mode} key={chord.name} />
       ))}
 
       {/* <fieldset disabled>

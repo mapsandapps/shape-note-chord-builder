@@ -11,7 +11,7 @@ export default function PitchPicker(props: NoteProps) {
     <select>
       <option value="">--Please choose an option--</option>
       {pitches.map((item) => (
-        <option value={item}>
+        <option value={item} key={item}>
           <Note mode={props.mode} note={{ pitch: item }} />
         </option>
       ))}

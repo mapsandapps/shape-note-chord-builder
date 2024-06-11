@@ -8,10 +8,11 @@ interface ChordProps {
 
 export default function PitchPicker(props: ChordProps) {
   const { chord, mode } = props;
+
   return (
     <div className="chord">
       <div className="chord-name">{chord.name}</div>
-      {chord.notes.map((note) => (note ? <Note note={note} mode={mode} /> : <div>-</div>))}
+      {chord.notes.toReversed().map((note) => (note ? <Note note={note} mode={mode} key={note.pitch} /> : <div>-</div>))}
     </div>
   );
 }
