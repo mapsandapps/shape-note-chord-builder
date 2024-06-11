@@ -19,6 +19,7 @@ export enum Shape {
 
 export type Chord = {
   name: string;
+  nameWithInversion: string;
   rootPitch: number;
   inversion?: number;
   notes: Array<Note>;
@@ -50,3 +51,17 @@ export const getShape = (syllable: Syllable): Shape => {
   else if (syllable === Syllable.la) return Shape.rectangle;
   else return Shape.diamond;
 };
+
+const getSortedChords = (mode: Mode, melody: Note, bass: Note, others: Array<Note>) => {
+  if (melody) {
+    // use Rob Kelley's guide
+
+  } else {
+    // use Aldo's guide
+
+  }
+}
+
+export const filterChords = (mode: Mode, melody: Note, bass: Note, others: Array<Note>) => {
+
+}

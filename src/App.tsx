@@ -50,6 +50,12 @@ function App() {
             </td>
           </tr>
           <tr>
+            <td>Any:</td>
+            <td>
+              <PitchPicker mode={mode} />
+            </td>
+          </tr>
+          <tr>
             <td>Bass:</td>
             <td>
               <PitchPicker mode={mode} />
@@ -58,8 +64,14 @@ function App() {
         </tbody>
       </table>
 
+      {/* TODO: set display name to chord.nameWithInversion or chord.name depending on current filter */}
       {majorChords.map((chord) => (
-        <Chord chord={chord} mode={mode} key={chord.name} />
+        <Chord 
+          chord={chord} 
+          displayName={chord.name}
+          mode={mode} 
+          key={chord.nameWithInversion} 
+        />
       ))}
 
       {/* <fieldset disabled>

@@ -3,6 +3,7 @@ import Note from './Note';
 
 interface ChordProps {
   chord: Chord;
+  displayName: string;
   mode: Mode;
 }
 
@@ -11,7 +12,7 @@ export default function PitchPicker(props: ChordProps) {
 
   return (
     <div className="chord">
-      <div className="chord-name">{chord.name}</div>
+      <div className="chord-name">{props.displayName}</div>
       {chord.notes.toReversed().map((note) => (note ? <Note note={note} mode={mode} key={note.pitch} /> : <div>-</div>))}
     </div>
   );

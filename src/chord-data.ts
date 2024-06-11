@@ -23,9 +23,16 @@ const getInversion = (chordComposition: string): number => {
   return 0
 }
 
-export const getChordFromChordName = (chordName: string): Chord => {
-  console.log(chordName)
+const getChordNameNoInversions = (chord: string, hasThird: boolean, hasFifth: boolean) => {
+  if (hasThird && !hasFifth) {
+    return `${chord} (no 5)`
+  } else if (hasFifth && !hasThird) {
+    return `${chord} (no 3)`
+  }
+  return chord
+}
 
+export const getChordFromChordName = (chordName: string): Chord => {
   const chord: string = chordName.match(/[iIvV°]+/)![0]; // e.g. 'I', 'iii'
   const chordComposition = chordName.match(/[3456]+/)![0]; // e.g. '53', '64'
   const inversion = getInversion(chordComposition);
@@ -33,11 +40,16 @@ export const getChordFromChordName = (chordName: string): Chord => {
   const hasThird = !(chordComposition === '5' || chordComposition === '4')
   const hasFifth = !(chordComposition === '3' || chordComposition === '6')
 
+  const name = getChordNameNoInversions(chord, hasThird, hasFifth);
+
   // @ts-ignore
   const pitches: Array<number> = chordPitches[chord]
+
   if (!pitches) console.log('pitch error')
+  
   return {
-    name: chordName,
+    name,
+    nameWithInversion: chordName,
     rootPitch: pitches[0],
     inversion,
     notes: [
@@ -56,9 +68,21 @@ export const getChordFromChordName = (chordName: string): Chord => {
 
 }
 
-const allMajorChordNames = ['I5', 'I53', 'I63', 'I64', 'ii3', 'ii53', 'ii63', 'iii3', 'iii53', 'IV64', 'IV53', 'V5', 'V53', 'vi53', 'vi63'];
+const allMajorChordNames = ['I5', 'I53', 'I63', 'I64', 'ii3', 'ii53', 'ii63', 'iii53', 'iii3', 'IV53', 'IV64', 'V5', 'V53', 'vi53', 'vi63'];
 
 const majorKeyChordsByPopularity = {
+  // source: Aldo's guide
+  // i can't find a link to this document
+  // Sacred Harp Tunewriting Workshop.
+  // Aldo Thomas Ceresa; Camp Fasola, 2019.
+  'Most common': ['I5', 'I53', 'I63', 'I64', 'vi53', 'vi63', 'V5', 'V53'],
+  'Less common': ['ii3', 'ii53', 'ii63', 'IV53', 'IV64'],
+  'Rarely used': ['iii53', 'iii3']
+}
+
+const majorKeyChordsByPopularityBasedOnMelody = {
+  // source: Rob Kelley
+  // https://robertkelleyphd.com/home/ShapeNoteMusic/ACorpusBasedModelOfHarmonicFunctionInShapeNoteHymnodyPaper.pdf
   1: {
     preferred: ['I5', 'I53', 'I64'],
     alternate: ['vi53', 'vi63']
@@ -92,37 +116,3 @@ const majorKeyChordsByPopularity = {
 // TODO: maybe compute these??
 // TODO: delete this?
 export const majorChords: Array<Chord> = allMajorChordNames.map(chord => getChordFromChordName(chord))
-// [
-//   {
-//     name: 'I5',
-//     rootPitch: 1,
-//     notes: [
-//       {
-//         pitch: 5,
-//       },
-//       null,
-//       {
-//         pitch: 1,
-//         isMelody: true,
-//         isBass: true,
-//       },
-//     ],
-//   },
-//   {
-//     name: 'I53',
-//     rootPitch: 1,
-//     notes: [
-//       {
-//         pitch: 5,
-//       },
-//       {
-//         pitch: 3,
-//       },
-//       {
-//         pitch: 1,
-//         isMelody: true,
-//         isBass: true,
-//       },
-//     ],
-//   },
-// ];
