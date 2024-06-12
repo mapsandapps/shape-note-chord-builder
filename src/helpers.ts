@@ -71,9 +71,18 @@ const setMelodyOnNote = (note: Note, melody: number | null): boolean => {
   return note?.pitch === melody
 }
 
+const resetMelodyOnNotes = (chords: Array<Chord>) => {
+  chords.forEach(chord => {
+    chord.notes.forEach((note: Note) => {
+      note!.isMelody = false;
+    })
+  })
+}
+
 export const filterChords = (mode: Mode, melody: number | null, bass: number | null, others: Array<number | null>): Array<Chord> => {
-  // TODO: add functionality for minor chords
   let chords = mode === Mode.major ? majorChords : minorChords
+
+  resetMelodyOnNotes(chords)
 
   if (bass) {
     chords = chords.filter((chord) => chord.notes.find((note) => note?.isBass && note.pitch === bass))
