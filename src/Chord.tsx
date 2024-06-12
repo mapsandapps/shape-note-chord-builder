@@ -1,5 +1,6 @@
 import { Chord, Mode } from './helpers';
 import Note from './Note';
+import Shape from './Shape';
 
 interface ChordProps {
   chord: Chord;
@@ -13,7 +14,7 @@ export default function PitchPicker(props: ChordProps) {
   return (
     <div className="chord">
       <div className="chord-name">{props.displayName}</div>
-      {chord.notes.toReversed().map((note) => (note ? <Note note={note} mode={mode} key={note.pitch} /> : <div>-</div>))}
+      {chord.notes.toReversed().map((note, i) => (<Shape note={note} mode={mode} isFaded={i % 2 === 1} key={note?.pitch} />))}
     </div>
   );
 }

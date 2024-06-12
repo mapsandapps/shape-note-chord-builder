@@ -99,11 +99,6 @@ function App() {
           <input type="radio" />7 (coming eventually?)
         </label>
       </fieldset> */}
-
-      <Shape note={{ pitch: 1 }} mode={Mode.major} />
-      <Shape note={{ pitch: 2 }} mode={Mode.major} />
-      <Shape note={{ pitch: 3 }} mode={Mode.major} />
-      <Shape note={{ pitch: 7 }} mode={Mode.major} />
     </>
   );
 }
