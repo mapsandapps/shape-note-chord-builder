@@ -17,7 +17,7 @@ export default function Note(props: NoteProps) {
   return (
     <div className={`${props.note.isBass && 'bass'} ${props.note.isMelody && 'melody'}`}>
       {shape}
-      {syllable}-{props.note.pitch} {props.note.isBass && <span>(bass)</span>}
+      {syllable}-{props.note.pitch} {props.note.isMelody && <span>(melody)</span>} {props.note.isBass && <span>(bass)</span>}
     </div>
   );
 }

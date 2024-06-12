@@ -1,15 +1,26 @@
-import { useState } from 'react';
-import { Mode } from './helpers';
-import { majorChords } from './chord-data';
+import { useEffect, useState } from 'react';
+import { Chord as ChordType, Mode, filterChords } from './helpers';
 import Chord from './Chord';
 import PitchPicker from './PitchPicker';
 import './App.css';
 
 function App() {
   const [mode, setMode] = useState<Mode>(Mode.major);
+  const [melody, setMelody] = useState<number | null>(null);
+  const [bass, setBass] = useState<number | null>(null);
+  const [anyNotes, setAnyNotes] = useState<Array<number | null>>([null, null, null]);
 
-  const onSelectMelody = (pitch: number) => {
-    console.log(`melody: ${pitch}`);
+  const [chords, setChords] = useState<Array<ChordType>>(filterChords(mode, melody, bass, anyNotes));
+
+  useEffect(() => {
+    setChords(filterChords(mode, melody, bass, anyNotes))
+  }, [anyNotes, bass, melody, mode])
+
+  const onSelectNote = (e: React.ChangeEventHandler<HTMLSelectElement> | undefined, index: number) => {
+    const notes = [ ...anyNotes ]
+    notes[index] = Number(e.target.value) || null;
+    setAnyNotes(notes);
+    console.log(notes);
   };
 
   // TODO: useEffect hook to find notes in chord
@@ -34,38 +45,40 @@ function App() {
           <tr>
             <td>Melody:</td>
             <td>
-              <PitchPicker mode={mode} />
+              <PitchPicker mode={mode} selectedNote={melody} onChange={(e) => setMelody(Number(e.target.value))} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
-              <PitchPicker mode={mode} />
+              <PitchPicker mode={mode} selectedNote={anyNotes[0]} onChange={(e) => onSelectNote(e, 0)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
-              <PitchPicker mode={mode} />
+              <PitchPicker mode={mode} selectedNote={anyNotes[1]} onChange={(e) => onSelectNote(e, 1)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
-              <PitchPicker mode={mode} />
+              <PitchPicker mode={mode} selectedNote={anyNotes[2]} onChange={(e) => onSelectNote(e, 2)} />
             </td>
           </tr>
           <tr>
             <td>Bass:</td>
             <td>
-              <PitchPicker mode={mode} />
+              <PitchPicker mode={mode} selectedNote={bass} onChange={(e) => setBass(Number(e.target.value))} />
             </td>
           </tr>
         </tbody>
       </table>
 
+      <div>Note: if you pick a melody note, the chords will (eventually) be sorted by commonality based on the melody note.</div>
+
       {/* TODO: set display name to chord.nameWithInversion or chord.name depending on current filter */}
-      {majorChords.map((chord) => (
+      {chords.map((chord) => (
         <Chord 
           chord={chord} 
           displayName={chord.name}

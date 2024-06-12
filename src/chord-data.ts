@@ -8,11 +8,17 @@ export const getMajorKeyChordsByPopularity = (pitch: number): Array<Chord> => {
 // both major & minor
 const chordPitches = {
   'I': [1, 3, 5],
+  'i': [1, 3, 5],
   'ii': [2, 4, 6],
+  'ii°': [2, 4, 6],
+  'III': [3, 5, 7],
   'iii': [3, 5, 7],
   'IV': [4, 6, 1],
+  'iv': [4, 6, 1],
   'V': [5, 7, 2],
-  'vi': [6, 1, 3]
+  'v': [5, 7, 2],
+  'vi': [6, 1, 3],
+  'VII': [7, 2, 4]
 }
 
 const getInversion = (chordComposition: string): number => {
@@ -69,6 +75,7 @@ export const getChordFromChordName = (chordName: string): Chord => {
 }
 
 const allMajorChordNames = ['I5', 'I53', 'I63', 'I64', 'ii3', 'ii53', 'ii63', 'iii53', 'iii3', 'IV53', 'IV64', 'V5', 'V53', 'vi53', 'vi63'];
+const allMinorChordNames = ['i5', 'i53', 'i3', 'ii°53', 'III53', 'iv5', 'iv53', 'iv4', 'iv63', 'v5', 'v53', 'VII5', 'VII53'];
 
 const majorKeyChordsByPopularity = {
   // source: Aldo's guide
@@ -78,6 +85,49 @@ const majorKeyChordsByPopularity = {
   'Most common': ['I5', 'I53', 'I63', 'I64', 'vi53', 'vi63', 'V5', 'V53'],
   'Less common': ['ii3', 'ii53', 'ii63', 'IV53', 'IV64'],
   'Rarely used': ['iii53', 'iii3']
+}
+
+const minorKeyChordsByPopularity = {
+  // source: Aldo's guide
+  // i can't find a link to this document
+  // Sacred Harp Tunewriting Workshop.
+  // Aldo Thomas Ceresa; Camp Fasola, 2019.
+  'Most common': ['i', 'VII', 'III', 'v'],
+  'Less common': ['iv'],
+  'Rarely used': ['ii']
+}
+
+const minorKeyChordsByPopularityBasedOnMelody = {
+  // source: Rob Kelley
+  // https://robertkelleyphd.com/home/ShapeNoteMusic/ACorpusBasedModelOfHarmonicFunctionInShapeNoteHymnodyPaper.pdf
+  1: {
+    preferred: ['i5'],
+    alternate: ['iv5', 'iv4']
+  },
+  2: {
+    preferred: ['v5'],
+    alternate: ['VII53']
+  },
+  3: {
+    preferred: ['i53'],
+    alternate: ['III53']
+  },
+  4: {
+    preferred: ['VII3', 'VII53'],
+    alternate: ['iv4']
+  },
+  5: {
+    preferred: ['i5', 'i53'],
+    alternate: ['III53']
+  },
+  6: {
+    preferred: ['iv53'],
+    alternate: ['iv63', 'ii°53']
+  },
+  7: {
+    preferred: ['III53'],
+    alternate: ['v53', 'VII5']
+  },
 }
 
 const majorKeyChordsByPopularityBasedOnMelody = {
@@ -116,3 +166,4 @@ const majorKeyChordsByPopularityBasedOnMelody = {
 // TODO: maybe compute these??
 // TODO: delete this?
 export const majorChords: Array<Chord> = allMajorChordNames.map(chord => getChordFromChordName(chord))
+export const minorChords: Array<Chord> = allMinorChordNames.map(chord => getChordFromChordName(chord))

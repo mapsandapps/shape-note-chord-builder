@@ -1,3 +1,5 @@
+import { majorChords, minorChords } from './chord-data';
+
 export enum Mode {
   major = 'major',
   minor = 'minor',
@@ -62,6 +64,31 @@ const getSortedChords = (mode: Mode, melody: Note, bass: Note, others: Array<Not
   }
 }
 
-export const filterChords = (mode: Mode, melody: Note, bass: Note, others: Array<Note>) => {
+const setMelodyOnNote = (note: Note, melody: number | null): boolean => {
+  if (note?.pitch === melody) {
+    note.isMelody = true
+  }
+  return note?.pitch === melody
+}
 
+export const filterChords = (mode: Mode, melody: number | null, bass: number | null, others: Array<number | null>): Array<Chord> => {
+  // TODO: add functionality for minor chords
+  let chords = mode === Mode.major ? majorChords : minorChords
+
+  if (bass) {
+    chords = chords.filter((chord) => chord.notes.find((note) => note?.isBass && note.pitch === bass))
+  }
+
+  if (melody) {
+    chords = chords.filter((chord) => chord.notes.find((note) =>  setMelodyOnNote(note, melody)))
+  }
+
+  others.forEach(otherNote => {
+    if (otherNote) {
+      chords = chords.filter((chord) => chord.notes.find((note) =>  note?.pitch === otherNote))
+    }
+  });
+  
+
+  return chords
 }
