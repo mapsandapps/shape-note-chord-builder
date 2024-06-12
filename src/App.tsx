@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Chord as ChordType, Mode, filterChords } from './helpers';
 import Chord from './Chord';
 import PitchPicker from './PitchPicker';
+import Shape from './Shape';
 import './App.css';
 
 function App() {
@@ -98,6 +99,11 @@ function App() {
           <input type="radio" />7 (coming eventually?)
         </label>
       </fieldset> */}
+
+      <Shape note={{ pitch: 1 }} mode={Mode.major} />
+      <Shape note={{ pitch: 2 }} mode={Mode.major} />
+      <Shape note={{ pitch: 3 }} mode={Mode.major} />
+      <Shape note={{ pitch: 7 }} mode={Mode.major} />
     </>
   );
 }
