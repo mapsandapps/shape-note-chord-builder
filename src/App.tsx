@@ -18,6 +18,7 @@ function App() {
 
   const onSelectNote = (e: React.ChangeEventHandler<HTMLSelectElement> | undefined, index: number) => {
     const notes = [ ...anyNotes ]
+    // @ts-ignore
     notes[index] = Number(e.target.value) || null;
     setAnyNotes(notes);
     console.log(notes);
@@ -46,30 +47,35 @@ function App() {
           <tr>
             <td>Melody:</td>
             <td>
+              {/* @ts-ignore */}
               <PitchPicker mode={mode} selectedNote={melody} onChange={(e) => setMelody(Number(e.target.value))} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
+              {/* @ts-ignore */}
               <PitchPicker mode={mode} selectedNote={anyNotes[0]} onChange={(e) => onSelectNote(e, 0)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
+              {/* @ts-ignore */}
               <PitchPicker mode={mode} selectedNote={anyNotes[1]} onChange={(e) => onSelectNote(e, 1)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
+              {/* @ts-ignore */}
               <PitchPicker mode={mode} selectedNote={anyNotes[2]} onChange={(e) => onSelectNote(e, 2)} />
             </td>
           </tr>
           <tr>
             <td>Bass:</td>
             <td>
+              {/* @ts-ignore */}
               <PitchPicker mode={mode} selectedNote={bass} onChange={(e) => setBass(Number(e.target.value))} />
             </td>
           </tr>
