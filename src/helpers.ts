@@ -1,4 +1,4 @@
-import { majorChords, minorChords } from './chord-data';
+import { getPopularChords } from './chord-data';
 
 export enum Mode {
   major = 'major',
@@ -33,6 +33,11 @@ export type Note = {
   isBass?: boolean;
 } | null;
 
+export type PopularChords = {
+  mostCommon: Array<Chord>
+  lessCommon: Array<Chord>
+}
+
 export const getSyllable = (pitch: number, mode: Mode = Mode.major): Syllable => {
   if (mode === Mode.major) {
     if (pitch === 1 || pitch === 4) return Syllable.fa;
@@ -54,16 +59,6 @@ export const getShape = (syllable: Syllable): Shape => {
   else return Shape.diamond;
 };
 
-const getSortedChords = (mode: Mode, melody: Note, bass: Note, others: Array<Note>) => {
-  if (melody) {
-    // use Rob Kelley's guide
-
-  } else {
-    // use Aldo's guide
-
-  }
-}
-
 const setMelodyOnNote = (note: Note, melody: number | null): boolean => {
   if (note?.pitch === melody) {
     note.isMelody = true
@@ -79,25 +74,30 @@ const resetMelodyOnNotes = (chords: Array<Chord>) => {
   })
 }
 
-export const filterChords = (mode: Mode, melody: number | null, bass: number | null, others: Array<number | null>): Array<Chord> => {
-  let chords = mode === Mode.major ? majorChords : minorChords
+export const filterChords = (mode: Mode, melody: number | null, bass: number | null, others: Array<number | null>): PopularChords => {
+  const hasOthers = Boolean(others.some(() => {}))
+  let chords = getPopularChords(mode, melody, Boolean(melody || bass || hasOthers))
 
-  resetMelodyOnNotes(chords)
+  resetMelodyOnNotes(chords.mostCommon)
+  resetMelodyOnNotes(chords.lessCommon)
 
+  // TODO: DRY
   if (bass) {
-    chords = chords.filter((chord) => chord.notes.find((note) => note?.isBass && note.pitch === bass))
+    chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) => note?.isBass && note.pitch === bass))
+    chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) => note?.isBass && note.pitch === bass))
   }
 
   if (melody) {
-    chords = chords.filter((chord) => chord.notes.find((note) =>  setMelodyOnNote(note, melody)))
+    chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) =>  setMelodyOnNote(note, melody)))
+    chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  setMelodyOnNote(note, melody)))
   }
 
   others.forEach(otherNote => {
     if (otherNote) {
-      chords = chords.filter((chord) => chord.notes.find((note) =>  note?.pitch === otherNote))
+      chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) =>  note?.pitch === otherNote))
+      chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  note?.pitch === otherNote))
     }
   });
-  
 
   return chords
 }

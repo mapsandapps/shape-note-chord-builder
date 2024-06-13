@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Chord as ChordType, Mode, filterChords } from './helpers';
+import { Mode, PopularChords, filterChords } from './helpers';
 import Chord from './Chord';
 import PitchPicker from './PitchPicker';
-import Shape from './Shape';
 import './App.css';
 
 function App() {
@@ -11,7 +10,7 @@ function App() {
   const [bass, setBass] = useState<number | null>(null);
   const [anyNotes, setAnyNotes] = useState<Array<number | null>>([null, null, null]);
 
-  const [chords, setChords] = useState<Array<ChordType>>(filterChords(mode, melody, bass, anyNotes));
+  const [chords, setChords] = useState<PopularChords>(filterChords(mode, melody, bass, anyNotes));
 
   useEffect(() => {
     setChords(filterChords(mode, melody, bass, anyNotes))
@@ -28,6 +27,7 @@ function App() {
 
   return (
     <>
+      <h1>Shape Note Chord Builder</h1>
       <fieldset>
         <legend>Mode:</legend>
 
@@ -78,11 +78,31 @@ function App() {
 
       <div>Note: if you pick a melody note, the chords will (eventually) be sorted by commonality based on the melody note.</div>
 
+      {chords.mostCommon.length > 0 && (
+        <h2>Most common:</h2>
+      )}
+
       {/* TODO: set display name to chord.nameWithInversion or chord.name depending on current filter */}
-      {chords.map((chord) => (
+      {/* might not be needed now? */}
+      {chords.mostCommon.map((chord) => (
         <Chord 
           chord={chord} 
-          displayName={chord.name}
+          displayName={bass ? chord.nameWithInversion : chord.name}
+          mode={mode} 
+          key={chord.nameWithInversion} 
+        />
+      ))}
+
+      {chords.lessCommon.length > 0 && (
+        <h2>Less common:</h2>
+      )}
+
+      {/* TODO: set display name to chord.nameWithInversion or chord.name depending on current filter */}
+      {/* might not be needed now? */}
+      {chords.lessCommon.map((chord) => (
+        <Chord 
+          chord={chord} 
+          displayName={bass ? chord.nameWithInversion : chord.name}
           mode={mode} 
           key={chord.nameWithInversion} 
         />

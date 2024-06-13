@@ -1,5 +1,4 @@
 import { Chord, Mode } from './helpers';
-import Note from './Note';
 import Shape from './Shape';
 
 interface ChordProps {
