@@ -21,7 +21,6 @@ export enum Shape {
 
 export type Chord = {
   name: string;
-  nameWithInversion: string;
   rootPitch: number;
   inversion?: number;
   notes: Array<Note>;

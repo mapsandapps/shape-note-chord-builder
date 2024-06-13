@@ -1,9 +1,4 @@
-import { Chord, ChordsBasedOnMelody, Mode, PopularChords } from './helpers';
-
-export const getMajorKeyChordsByPopularity = (pitch: number): Array<Chord> => {
-  // TODO: add isBass & isMelody here
-  return []
-}
+import { Chord, Mode, PopularChords } from './helpers';
 
 // both major & minor
 const chordPitches = {
@@ -29,15 +24,6 @@ const getInversion = (chordComposition: string): number => {
   return 0
 }
 
-const getChordNameNoInversions = (chord: string, hasThird: boolean, hasFifth: boolean) => {
-  if (hasThird && !hasFifth) {
-    return `${chord} (no 5)`
-  } else if (hasFifth && !hasThird) {
-    return `${chord} (no 3)`
-  }
-  return chord
-}
-
 export const getChordFromChordName = (chordName: string): Chord => {
   const chord: string = chordName.match(/[iIvV°]+/)![0]; // e.g. 'I', 'iii'
   const chordComposition = chordName.match(/[3456]+/) ? chordName.match(/[3456]+/)![0] : ''; // e.g. '53', '64'
@@ -46,16 +32,13 @@ export const getChordFromChordName = (chordName: string): Chord => {
   const hasThird = !(chordComposition === '5' || chordComposition === '4')
   const hasFifth = !(chordComposition === '3' || chordComposition === '6')
 
-  const name = getChordNameNoInversions(chord, hasThird, hasFifth);
-
   // @ts-ignore
   const pitches: Array<number> = chordPitches[chord]
 
   if (!pitches) console.log('pitch error')
   
   return {
-    name,
-    nameWithInversion: chordName,
+    name: chordName,
     rootPitch: pitches[0],
     inversion,
     notes: [
@@ -71,7 +54,6 @@ export const getChordFromChordName = (chordName: string): Chord => {
       }
     ]
   }
-
 }
 
 const chordsByPopularityWithInversions = {
@@ -97,15 +79,14 @@ const chordsByPopularity = {
   // i can't find a link to this document
   // Sacred Harp Tunewriting Workshop.
   // Aldo Thomas Ceresa; Camp Fasola, 2019.
+  // i combined "less common" and "rarely used" for simplicity
   major: {
     mostCommon: ['I','vi', 'V'],
-    lessCommon: ['ii', 'IV'],
-    rarelyUsed: ['iii']
+    lessCommon: ['ii', 'IV', 'iii']
   },
   minor: {
     mostCommon: ['i', 'VII', 'III', 'v'],
-    lessCommon: ['iv'],
-    rarelyUsed: ['ii']
+    lessCommon: ['iv', 'ii']
   }
 }
 

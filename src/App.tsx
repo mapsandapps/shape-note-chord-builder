@@ -76,20 +76,17 @@ function App() {
         </tbody>
       </table>
 
-      <div>Note: if you pick a melody note, the chords will (eventually) be sorted by commonality based on the melody note.</div>
+      <div>Note: once you select a note, some chord inversions will be shown.</div>
 
       {chords.mostCommon.length > 0 && (
         <h2>Most common:</h2>
       )}
 
-      {/* TODO: set display name to chord.nameWithInversion or chord.name depending on current filter */}
-      {/* might not be needed now? */}
       {chords.mostCommon.map((chord) => (
         <Chord 
-          chord={chord} 
-          displayName={bass ? chord.nameWithInversion : chord.name}
+          chord={chord}
           mode={mode} 
-          key={chord.nameWithInversion} 
+          key={chord.name} 
         />
       ))}
 
@@ -97,14 +94,11 @@ function App() {
         <h2>Less common:</h2>
       )}
 
-      {/* TODO: set display name to chord.nameWithInversion or chord.name depending on current filter */}
-      {/* might not be needed now? */}
       {chords.lessCommon.map((chord) => (
         <Chord 
-          chord={chord} 
-          displayName={bass ? chord.nameWithInversion : chord.name}
+          chord={chord}
           mode={mode} 
-          key={chord.nameWithInversion} 
+          key={chord.name} 
         />
       ))}
 
