@@ -1,4 +1,8 @@
-# React + TypeScript + Vite
+# Shape Note Chord Builder
+- [Vercel deploy](https://shape-note-chord-builder.vercel.app/)
+- I've been building this on [Stackblitz](https://stackblitz.com/edit/vitejs-vite-jlafm9)
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
