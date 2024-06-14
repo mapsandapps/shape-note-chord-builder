@@ -22,7 +22,7 @@ export enum Shape {
 export type Chord = {
   name: string;
   rootPitch: number;
-  inversion?: number;
+  inversion?: number | null;
   notes: Array<Note>;
 };
 
