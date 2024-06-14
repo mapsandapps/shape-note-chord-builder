@@ -13,6 +13,7 @@ function App() {
   const [chords, setChords] = useState<PopularChords>(filterChords(mode, melody, bass, anyNotes));
 
   useEffect(() => {
+    console.log(anyNotes)
     setChords(filterChords(mode, melody, bass, anyNotes))
   }, [anyNotes, bass, melody, mode])
 
@@ -21,10 +22,13 @@ function App() {
     // @ts-ignore
     notes[index] = Number(e.target.value) || null;
     setAnyNotes(notes);
-    console.log(notes);
   };
 
-  // TODO: useEffect hook to find notes in chord
+  const reset = () => {
+    setMelody(null)
+    setBass(null)
+    setAnyNotes([null, null, null])
+  }
 
   return (
     <>
@@ -48,35 +52,41 @@ function App() {
             <td>Melody:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker mode={mode} selectedNote={melody} onChange={(e) => setMelody(Number(e.target.value))} />
+              <PitchPicker key={`melody${melody}`} mode={mode} selectedPitch={melody} onChange={(e) => setMelody(Number(e.target.value))} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker mode={mode} selectedNote={anyNotes[0]} onChange={(e) => onSelectNote(e, 0)} />
+              <PitchPicker key={`anyNotes0${anyNotes[0]}`} mode={mode} selectedPitch={anyNotes[0]} onChange={(e) => onSelectNote(e, 0)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker mode={mode} selectedNote={anyNotes[1]} onChange={(e) => onSelectNote(e, 1)} />
+              <PitchPicker key={`anyNotes1${anyNotes[1]}`} mode={mode} selectedPitch={anyNotes[1]} onChange={(e) => onSelectNote(e, 1)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker mode={mode} selectedNote={anyNotes[2]} onChange={(e) => onSelectNote(e, 2)} />
+              <PitchPicker key={`anyNotes2${anyNotes[2]}`} mode={mode} selectedPitch={anyNotes[2]} onChange={(e) => onSelectNote(e, 2)} />
             </td>
           </tr>
           <tr>
             <td>Bass:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker mode={mode} selectedNote={bass} onChange={(e) => setBass(Number(e.target.value))} />
+              <PitchPicker key={`bass${bass}`} mode={mode} selectedPitch={bass} onChange={(e) => setBass(Number(e.target.value))} />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button onClick={reset}>Reset</button>
             </td>
           </tr>
         </tbody>

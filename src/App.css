@@ -10,3 +10,7 @@
   font-family: 'Courier New', Courier, monospace;
   border-bottom: 1px solid black;
 }
+
+button {
+  border-radius: 8px;
+}
