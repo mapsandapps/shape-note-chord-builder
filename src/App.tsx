@@ -147,6 +147,10 @@ function App() {
           shapeSystem={shapeSystem}
         />
       ))}
+
+      {chords.mostCommon.length === 0 && chords.lessCommon.length === 0 && (
+        <h2>No recommended chords</h2>
+      )}
     </>
   );
 }
