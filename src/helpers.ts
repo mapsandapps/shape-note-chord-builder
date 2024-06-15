@@ -6,10 +6,13 @@ export enum Mode {
 }
 
 export enum Syllable {
+  do = 'do',
+  re = 're',
   fa = 'fa',
   sol = 'sol',
   la = 'la',
   mi = 'mi',
+  ti = 'ti'
 }
 
 export enum Shape {
@@ -17,23 +20,15 @@ export enum Shape {
   circle = '○︎',
   rectangle = '▭',
   diamond = '◇',
+  do = '△',
+  semiCircle = 'semi-circle',
+  baseballDiamond = 'baseball-diamond'
 }
 
-// export enum Key {
-//   a = 'A',
-//   bFlat = 'B♭',
-//   b = 'B',
-//   c = 'C',
-//   cSharp = 'C♯',
-//   dFlat = 'D♭',
-//   d = 'D',
-//   eFlat = 'E♭',
-//   e = 'E',
-//   f = 'F',
-//   fSharp = 'F♯',
-//   g = 'G',
-//   aFlat = 'A♭'
-// }
+export enum ShapeSystem {
+  four = '4-shape',
+  seven = '7-shape (Aikin)' 
+}
 
 export type Chord = {
   name: string;
@@ -53,7 +48,26 @@ export type PopularChords = {
   lessCommon: Array<Chord>
 }
 
-export const getSyllable = (pitch: number, mode: Mode = Mode.major): Syllable => {
+export const getSyllable = (pitch: number, mode: Mode = Mode.major, shapeSystem: ShapeSystem): Syllable => {
+  if (shapeSystem === ShapeSystem.seven) {
+    if (mode === Mode.major) {
+      if (pitch === 1) return Syllable.do;
+      if (pitch === 2) return Syllable.re;
+      if (pitch === 3) return Syllable.mi;
+      if (pitch === 4) return Syllable.fa;
+      if (pitch === 5) return Syllable.sol;
+      if (pitch === 6) return Syllable.la;
+      if (pitch === 7) return Syllable.ti;
+    } else {
+      if (pitch === 1) return Syllable.la;
+      if (pitch === 2) return Syllable.ti;
+      if (pitch === 3) return Syllable.do;
+      if (pitch === 4) return Syllable.re;
+      if (pitch === 5) return Syllable.mi;
+      if (pitch === 6) return Syllable.fa;
+      if (pitch === 7) return Syllable.sol;
+    }
+  }
   if (mode === Mode.major) {
     if (pitch === 1 || pitch === 4) return Syllable.fa;
     else if (pitch === 2 || pitch === 5) return Syllable.sol;
@@ -71,6 +85,9 @@ export const getShape = (syllable: Syllable): Shape => {
   if (syllable === Syllable.fa) return Shape.triangle;
   else if (syllable === Syllable.sol) return Shape.circle;
   else if (syllable === Syllable.la) return Shape.rectangle;
+  else if (syllable === Syllable.do) return Shape.do;
+  else if (syllable === Syllable.re) return Shape.semiCircle;
+  else if (syllable === Syllable.ti) return Shape.baseballDiamond;
   else return Shape.diamond;
 };
 

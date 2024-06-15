@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Mode, PopularChords, filterChords } from './helpers';
+import { Mode, PopularChords, ShapeSystem, filterChords } from './helpers';
 import { getKeyOptions } from './keys';
 import Chord from './Chord';
 import PitchPicker from './PitchPicker';
@@ -8,6 +8,7 @@ import './App.css';
 function App() {
   const [keyName, setKeyName] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>(Mode.major);
+  const [shapeSystem, setShapeSystem] = useState<ShapeSystem>(ShapeSystem.four);
   const [melody, setMelody] = useState<number | null>(null);
   const [bass, setBass] = useState<number | null>(null);
   const [anyNotes, setAnyNotes] = useState<Array<number | null>>([null, null, null]);
@@ -16,7 +17,7 @@ function App() {
 
   useEffect(() => {
     setChords(filterChords(mode, melody, bass, anyNotes))
-    // TODO: may need key here?
+    // TODO: may need key, shapeSystem here?
   }, [anyNotes, bass, melody, mode])
 
   const onSelectNote = (e: React.ChangeEventHandler<HTMLSelectElement> | undefined, index: number) => {
@@ -50,13 +51,25 @@ function App() {
         </label>
 
         <label>
-          <input type="radio" checked={mode === 'major'} onChange={() => setMode(Mode.major)} />
+          <input type="radio" checked={mode === Mode.major} onChange={() => setMode(Mode.major)} />
           Major
         </label>
 
         <label>
-          <input type="radio" checked={mode === 'minor'} onChange={() => setMode(Mode.minor)} />
+          <input type="radio" checked={mode === Mode.minor} onChange={() => setMode(Mode.minor)} />
           Minor
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Shapes:</legend>
+
+        <label>
+          <input type="radio" checked={shapeSystem === ShapeSystem.four} onChange={() => setShapeSystem(ShapeSystem.four)} />4
+        </label>
+
+        <label>
+          <input type="radio" checked={shapeSystem === ShapeSystem.seven} onChange={() => setShapeSystem(ShapeSystem.seven)} />7 (Aikin)
         </label>
       </fieldset>
       <table>
@@ -65,35 +78,35 @@ function App() {
             <td>Melody:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`melody${melody}`} mode={mode} keyName={keyName} selectedPitch={melody} onChange={(e) => setMelody(Number(e.target.value))} />
+              <PitchPicker key={`melody${melody}`} mode={mode} keyName={keyName} selectedPitch={melody} shapeSystem={shapeSystem} onChange={(e) => setMelody(Number(e.target.value))} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`anyNotes0${anyNotes[0]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[0]} onChange={(e) => onSelectNote(e, 0)} />
+              <PitchPicker key={`anyNotes0${anyNotes[0]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[0]} shapeSystem={shapeSystem} onChange={(e) => onSelectNote(e, 0)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`anyNotes1${anyNotes[1]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[1]} onChange={(e) => onSelectNote(e, 1)} />
+              <PitchPicker key={`anyNotes1${anyNotes[1]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[1]} shapeSystem={shapeSystem} onChange={(e) => onSelectNote(e, 1)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`anyNotes2${anyNotes[2]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[2]} onChange={(e) => onSelectNote(e, 2)} />
+              <PitchPicker key={`anyNotes2${anyNotes[2]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[2]} shapeSystem={shapeSystem} onChange={(e) => onSelectNote(e, 2)} />
             </td>
           </tr>
           <tr>
             <td>Bass:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`bass${bass}`} mode={mode} keyName={keyName} selectedPitch={bass} onChange={(e) => setBass(Number(e.target.value))} />
+              <PitchPicker key={`bass${bass}`} mode={mode} keyName={keyName} selectedPitch={bass} shapeSystem={shapeSystem} onChange={(e) => setBass(Number(e.target.value))} />
             </td>
           </tr>
           <tr>
@@ -117,6 +130,7 @@ function App() {
           mode={mode} 
           key={chord.name} 
           keyName={keyName}
+          shapeSystem={shapeSystem}
         />
       ))}
 
@@ -130,20 +144,9 @@ function App() {
           mode={mode} 
           key={chord.name} 
           keyName={keyName}
+          shapeSystem={shapeSystem}
         />
       ))}
-
-      {/* <fieldset disabled>
-        <legend>Shapes:</legend>
-
-        <label>
-          <input type="radio" checked />4
-        </label>
-
-        <label>
-          <input type="radio" />7 (coming eventually?)
-        </label>
-      </fieldset> */}
     </>
   );
 }
