@@ -19,6 +19,22 @@ export enum Shape {
   diamond = '◇',
 }
 
+// export enum Key {
+//   a = 'A',
+//   bFlat = 'B♭',
+//   b = 'B',
+//   c = 'C',
+//   cSharp = 'C♯',
+//   dFlat = 'D♭',
+//   d = 'D',
+//   eFlat = 'E♭',
+//   e = 'E',
+//   f = 'F',
+//   fSharp = 'F♯',
+//   g = 'G',
+//   aFlat = 'A♭'
+// }
+
 export type Chord = {
   name: string;
   rootPitch: number;

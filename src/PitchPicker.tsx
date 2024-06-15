@@ -3,6 +3,7 @@ import Note from './Note';
 
 interface PitchPickerProps {
   mode: Mode;
+  keyName: string | null;
   selectedPitch: number | null;
   onChange: () => {};
 }
@@ -19,7 +20,7 @@ export default function PitchPicker(props: PitchPickerProps) {
 
         return (
           <option value={item.toString()} key={item}>
-            <Note mode={props.mode} note={note} />
+            <Note mode={props.mode} note={note} keyName={props.keyName} />
           </option>
         )
       })}

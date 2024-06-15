@@ -1,23 +1,29 @@
 import './Note.css';
 import { Mode, Note as NoteType, getShape, getSyllable } from './helpers';
+import { getNoteName } from './keys';
 
 interface NoteProps {
   note: NoteType;
   mode: Mode;
+  keyName: string | null;
 }
 
 export default function Note(props: NoteProps) {
-  if (!props.note || !props.note.pitch) {
+  const { keyName, mode, note } = props;
+  if (!note || !note.pitch) {
     return <div>-</div>
   }
 
-  const syllable = getSyllable(props.note.pitch, props.mode);
+  const syllable = getSyllable(note.pitch, mode);
   const shape = getShape(syllable);
+  // @ts-ignore
+  const noteName = getNoteName(mode, keyName, note.pitch);
 
   return (
-    <div className={`${props.note.isBass && 'bass'} ${props.note.isMelody && 'melody'}`}>
-      {shape}
-      {syllable}-{props.note.pitch} {props.note.isMelody && <span>(melody)</span>} {props.note.isBass && <span>(bass)</span>}
+    <div className={`${note.isBass && 'bass'} ${note.isMelody && 'melody'}`}>
+      {shape}{` `}
+      {syllable}-{note.pitch} {note.isMelody && <span>(melody)</span>} {note.isBass && <span>(bass)</span>}
+      {noteName && `: ${noteName}`}
     </div>
   );
 }

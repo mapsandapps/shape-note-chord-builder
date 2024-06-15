@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Mode, PopularChords, filterChords } from './helpers';
+import { getKeyOptions } from './keys';
 import Chord from './Chord';
 import PitchPicker from './PitchPicker';
 import './App.css';
 
 function App() {
+  const [keyName, setKeyName] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>(Mode.major);
   const [melody, setMelody] = useState<number | null>(null);
   const [bass, setBass] = useState<number | null>(null);
@@ -13,8 +15,8 @@ function App() {
   const [chords, setChords] = useState<PopularChords>(filterChords(mode, melody, bass, anyNotes));
 
   useEffect(() => {
-    console.log(anyNotes)
     setChords(filterChords(mode, melody, bass, anyNotes))
+    // TODO: may need key here?
   }, [anyNotes, bass, melody, mode])
 
   const onSelectNote = (e: React.ChangeEventHandler<HTMLSelectElement> | undefined, index: number) => {
@@ -37,6 +39,17 @@ function App() {
         <legend>Mode:</legend>
 
         <label>
+          <select onChange={(e) => setKeyName(e.target.value)} value={keyName || undefined}>
+            <option value="null">--Key (optional)--</option>
+            {getKeyOptions(mode).map((key) => (
+              <option value={key} key={key}>
+                { key }
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label>
           <input type="radio" checked={mode === 'major'} onChange={() => setMode(Mode.major)} />
           Major
         </label>
@@ -52,35 +65,35 @@ function App() {
             <td>Melody:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`melody${melody}`} mode={mode} selectedPitch={melody} onChange={(e) => setMelody(Number(e.target.value))} />
+              <PitchPicker key={`melody${melody}`} mode={mode} keyName={keyName} selectedPitch={melody} onChange={(e) => setMelody(Number(e.target.value))} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`anyNotes0${anyNotes[0]}`} mode={mode} selectedPitch={anyNotes[0]} onChange={(e) => onSelectNote(e, 0)} />
+              <PitchPicker key={`anyNotes0${anyNotes[0]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[0]} onChange={(e) => onSelectNote(e, 0)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`anyNotes1${anyNotes[1]}`} mode={mode} selectedPitch={anyNotes[1]} onChange={(e) => onSelectNote(e, 1)} />
+              <PitchPicker key={`anyNotes1${anyNotes[1]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[1]} onChange={(e) => onSelectNote(e, 1)} />
             </td>
           </tr>
           <tr>
             <td>Any:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`anyNotes2${anyNotes[2]}`} mode={mode} selectedPitch={anyNotes[2]} onChange={(e) => onSelectNote(e, 2)} />
+              <PitchPicker key={`anyNotes2${anyNotes[2]}`} mode={mode} keyName={keyName} selectedPitch={anyNotes[2]} onChange={(e) => onSelectNote(e, 2)} />
             </td>
           </tr>
           <tr>
             <td>Bass:</td>
             <td>
               {/* @ts-ignore */}
-              <PitchPicker key={`bass${bass}`} mode={mode} selectedPitch={bass} onChange={(e) => setBass(Number(e.target.value))} />
+              <PitchPicker key={`bass${bass}`} mode={mode} keyName={keyName} selectedPitch={bass} onChange={(e) => setBass(Number(e.target.value))} />
             </td>
           </tr>
           <tr>
@@ -103,6 +116,7 @@ function App() {
           chord={chord}
           mode={mode} 
           key={chord.name} 
+          keyName={keyName}
         />
       ))}
 
@@ -115,6 +129,7 @@ function App() {
           chord={chord}
           mode={mode} 
           key={chord.name} 
+          keyName={keyName}
         />
       ))}
 
