@@ -1,3 +1,7 @@
+button, select {
+  height: 48px;
+}
+
 .chord {
   border: 1px solid black;
   border-radius: 2px;

@@ -65,11 +65,11 @@ function App() {
         <legend>Shapes:</legend>
 
         <label>
-          <input type="radio" checked={shapeSystem === ShapeSystem.four} onChange={() => setShapeSystem(ShapeSystem.four)} />4
+          <input type="radio" checked={shapeSystem === ShapeSystem.four} onChange={() => setShapeSystem(ShapeSystem.four)} />4 shapes
         </label>
 
         <label>
-          <input type="radio" checked={shapeSystem === ShapeSystem.seven} onChange={() => setShapeSystem(ShapeSystem.seven)} />7 (Aikin)
+          <input type="radio" checked={shapeSystem === ShapeSystem.seven} onChange={() => setShapeSystem(ShapeSystem.seven)} />7 shapes (Aikin)
         </label>
       </fieldset>
       <table>
@@ -118,7 +118,7 @@ function App() {
         </tbody>
       </table>
 
-      <div>Note: once you select a note, some chord inversions will be shown.</div>
+      <div>Note: once you select a melody or bass note, some chord inversions will be shown.</div>
 
       {chords.mostCommon.length > 0 && (
         <h2>Most common:</h2>
