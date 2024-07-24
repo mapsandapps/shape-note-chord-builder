@@ -189,11 +189,13 @@ export const getPopularChords = (mode: Mode, melody: number | null, hasAnyNoteSe
     return {
       mostCommon: chordsByPopularityWithInversions[mode].mostCommon.map(chord => getChordFromChordName(chord)),
       lessCommon: chordsByPopularityWithInversions[mode].lessCommon.map(chord => getChordFromChordName(chord)),
+      other: []
     }
   }
 
   return {
     mostCommon: chordsByPopularity[mode].mostCommon.map(chord => getChordFromChordName(chord)),
     lessCommon: chordsByPopularity[mode].lessCommon.map(chord => getChordFromChordName(chord)),
+    other: []
   }
 }

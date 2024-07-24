@@ -46,7 +46,7 @@ export type Note = {
 export type PopularChords = {
   mostCommon: Array<Chord>
   lessCommon: Array<Chord>
-  other?: Array<Chord>
+  other: Array<Chord>
 }
 
 export const getSyllable = (pitch: number, mode: Mode = Mode.major, shapeSystem: ShapeSystem): Syllable => {

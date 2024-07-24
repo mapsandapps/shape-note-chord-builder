@@ -14,3 +14,9 @@
 button {
   border-radius: 8px;
 }
+
+.warning {
+  background-color: lightyellow;
+  border: 2px solid yellow;
+  padding: 8px;
+}
