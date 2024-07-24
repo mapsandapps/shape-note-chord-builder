@@ -94,64 +94,80 @@ const chordsByPopularity = {
 const chordsByPopularityBasedOnMelody = {
   // source: Rob Kelley
   // https://robertkelleyphd.com/home/ShapeNoteMusic/ACorpusBasedModelOfHarmonicFunctionInShapeNoteHymnodyPaper.pdf
+
+  // "other" chords are chords listed from Aldo's guide that aren't included in Rob's
   major: {
     1: {
       preferred: ['I5', 'I53', 'I64'],
-      alternate: ['vi53', 'vi63']
+      alternate: ['vi53', 'vi63'],
+      other: ['IV']
     },
     2: {
       preferred: ['V5'],
       alternate: ['ii3', 'ii53'],
+      other: ['V']
     },
     3: {
       preferred: ['I53', 'I63', 'I64'],
-      alternate: ['vi53']
+      alternate: ['vi53'],
+      other: ['iii']
     },
     4: {
       preferred: ['ii3', 'ii53'],
-      alternate: ['IV64', 'IV53']
+      alternate: ['IV64', 'IV53'],
+      other: []
     },
     5: {
       preferred: ['I5', 'I53', 'I63', 'I64'],
-      alternate: ['V5', 'iii3', 'iii53']
+      alternate: ['V5', 'iii3', 'iii53'],
+      other: ['V']
     },
     6: {
       preferred: ['vi53', 'vi63'],
-      alternate: ['ii53', 'ii63']
+      alternate: ['ii53', 'ii63'],
+      other: ['IV']
     },
     7: {
       preferred: ['V53'],
-      alternate: ['iii63', 'iii53']
+      alternate: ['iii63', 'iii53'],
+      other: []
     }
   },
   minor: {
     1: {
       preferred: ['i5'],
-      alternate: ['iv5', 'iv4']
+      alternate: ['iv5', 'iv4'],
+      other: ['i', 'iv']
     },
     2: {
       preferred: ['v5'],
-      alternate: ['VII53']
+      alternate: ['VII53'],
+      other: ['v', 'ii']
     },
     3: {
       preferred: ['i53'],
-      alternate: ['III53']
+      alternate: ['III53'],
+      other: []
     },
     4: {
       preferred: ['VII3', 'VII53'],
-      alternate: ['iv4']
+      alternate: ['iv4'],
+      other: ['iv', 'ii']
     },
     5: {
       preferred: ['i5', 'i53'],
-      alternate: ['III53']
+      alternate: ['III53'],
+      other: ['v']
     },
     6: {
       preferred: ['iv53'],
-      alternate: ['iv63', 'ii°53']
+      alternate: ['iv63', 'ii°53'],
+      other: []
     },
     7: {
       preferred: ['III53'],
-      alternate: ['v53', 'VII5']
+      alternate: ['v53', 'VII5'],
+      other: ['VII']
     }
   }
 }
@@ -162,7 +178,9 @@ export const getPopularChords = (mode: Mode, melody: number | null, hasAnyNoteSe
       // @ts-ignore
       mostCommon: chordsByPopularityBasedOnMelody[mode][melody].preferred.map(chord => getChordFromChordName(chord)),
       // @ts-ignore
-      lessCommon: chordsByPopularityBasedOnMelody[mode][melody].alternate.map(chord => getChordFromChordName(chord))
+      lessCommon: chordsByPopularityBasedOnMelody[mode][melody].alternate.map(chord => getChordFromChordName(chord)),
+      // @ts-ignore
+      other: chordsByPopularityBasedOnMelody[mode][melody].other.map(chord => getChordFromChordName(chord))
     }
   } 
   

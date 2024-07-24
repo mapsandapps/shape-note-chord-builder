@@ -151,6 +151,20 @@ function App() {
       {chords.mostCommon.length === 0 && chords.lessCommon.length === 0 && (
         <h2>No recommended chords</h2>
       )}
+
+      {chords.other?.length > 0 && (
+        <h2>Other:</h2>
+      )}
+
+      {chords.other?.map((chord) => (
+        <Chord 
+          chord={chord}
+          mode={mode} 
+          key={chord.name} 
+          keyName={keyName}
+          shapeSystem={shapeSystem}
+        />
+      ))}
     </>
   );
 }
