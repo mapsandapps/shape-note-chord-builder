@@ -1,6 +1,6 @@
 # Shape Note Chord Builder
 - [Vercel deploy](https://shape-note-chord-builder.vercel.app/)
-- I've been building this on [Stackblitz](https://stackblitz.com/edit/vitejs-vite-jlafm9)
+- I've been building this on [Stackblitz](https://stackblitz.com/~/github.com/mapsandapps/shape-note-chord-builder?file=src/chord-data.ts&file=src/helpers.ts)
 
 ## React + TypeScript + Vite
 
