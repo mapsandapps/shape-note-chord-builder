@@ -187,7 +187,6 @@ export const getPopularChords = (mode: Mode, melody: number | null, hasAnyNoteSe
   } 
   
   if (hasAnyNoteSelected) {
-    console.log('hasAnyNoteSelected')
     return {
       mostCommon: chordsByPopularityWithInversions[mode].mostCommon.map(chord => getChordFromChordName(chord)),
       lessCommon: chordsByPopularityWithInversions[mode].lessCommon.map(chord => getChordFromChordName(chord)),
@@ -241,23 +240,24 @@ const getInversionNotation = (chordName: string, inversion: number): string => {
 export const getChordDisplayName = (chord: string, notation: ChordNotation, mode: Mode, keyName: string | null): string => {
   const { fullName, inversion, name, notes } = getChordFromChordName(chord);
 
-  if (notation === ChordNotation.auto) {
-    // if there's a key, return guitar notation (e.g. "B♭/F")
-    // otherwise, return inversion notation (e.g. "I, 2nd inversion")
-    if (keyName) return getGuitarNotation(name, notes, inversion, mode, keyName)
-    return getInversionNotation(name, inversion)
-  };
+  switch (notation) {
+    case ChordNotation.auto:
+      // if there's a key, return guitar notation (e.g. "B♭/F")
+      // otherwise, return inversion notation (e.g. "I, 2nd inversion")
+      if (keyName) return getGuitarNotation(name, notes, inversion, mode, keyName)
+      return getInversionNotation(name, inversion)
+      break
 
-  if (notation === ChordNotation.guitar) {
-    return getGuitarNotation(name, notes, inversion, mode, keyName)
-  };
+    case ChordNotation.guitar:
+      return getGuitarNotation(name, notes, inversion, mode, keyName)
+      break
 
-  if (notation === ChordNotation.inversion) {
-    return getInversionNotation(name, inversion)
-  };
+    case ChordNotation.inversion:
+      return getInversionNotation(name, inversion)
+      break
 
-  if (notation === ChordNotation.figuredBass) return fullName;
-
-  // this return should never happen
-  return fullName
+    case ChordNotation.figuredBass:
+      return fullName
+      break
+  }
 }
