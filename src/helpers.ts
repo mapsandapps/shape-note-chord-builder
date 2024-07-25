@@ -26,8 +26,8 @@ export enum Shape {
 }
 
 export enum ShapeSystem {
-  four = '4-shape',
-  seven = '7-shape (Aikin)' 
+  four = '4-shapes',
+  seven = '7-shapes (Aikin)' 
 }
 
 export type Chord = {

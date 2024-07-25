@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Mode, Settings as SettingsType, ShapeSystem } from './helpers';
 import { getKeyOptions } from './keys';
+import './Settings.css';
 
 interface SettingsProps {
   settings: SettingsType;
@@ -27,27 +28,27 @@ export default function Settings(props: SettingsProps) {
           </select>
         </label>
 
-        <label>
-          <input type="radio" checked={mode === Mode.major} onChange={() => setSettings({ ...settings, mode: Mode.major })} />
-          Major
-        </label>
-
-        <label>
-          <input type="radio" checked={mode === Mode.minor} onChange={() => setSettings({ ...settings, mode: Mode.minor })} />
-          Minor
-        </label>
+        {(Object.keys(Mode) as Array<keyof typeof Mode>).map(k => {
+          return (
+            <label className="mode" key={k}>
+              <input type="radio" checked={mode === Mode[k]} onChange={() => setSettings({ ...settings, mode: Mode[k]})} />
+              { Mode[k] }
+            </label>
+          )
+        })}
         </fieldset>
 
         <fieldset>
         <legend>Shapes:</legend>
 
-        <label>
-          <input type="radio" checked={shapeSystem === ShapeSystem.four} onChange={() => setSettings({ ...settings, shapeSystem: ShapeSystem.four })} />4 shapes
-        </label>
+        {(Object.keys(ShapeSystem) as Array<keyof typeof ShapeSystem>).map(k => {
+          return (
+            <label key={k}>
+              <input type="radio" checked={shapeSystem === ShapeSystem[k]} onChange={() => setSettings({ ...settings, shapeSystem: ShapeSystem[k] })} />{ ShapeSystem[k] }
+            </label>
+          )
+        })}
 
-        <label>
-          <input type="radio" checked={shapeSystem === ShapeSystem.seven} onChange={() => setSettings({ ...settings, shapeSystem: ShapeSystem.seven })} />7 shapes (Aikin)
-        </label>
       </fieldset>
     </>
   );
