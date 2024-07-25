@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Mode, PopularChords, ShapeSystem, filterChords } from './helpers';
+import { Mode, PopularChords, Settings as SettingsType, ShapeSystem, filterChords } from './helpers';
 import Chord from './Chord';
 import PitchPicker from './PitchPicker';
 import './App.css';
 import Settings from './Settings';
 
+const defaultSettings: SettingsType = {
+  keyName: null,
+  mode: Mode.major,
+  shapeSystem: ShapeSystem.four
+}
+
 function App() {
-  const [keyName, setKeyName] = useState<string | null>(null);
-  const [mode, setMode] = useState<Mode>(Mode.major);
-  const [shapeSystem, setShapeSystem] = useState<ShapeSystem>(ShapeSystem.four);
+  const [settings, setSettings] = useState<SettingsType>(defaultSettings);
   const [melody, setMelody] = useState<number | null>(null);
   const [bass, setBass] = useState<number | null>(null);
   const [anyNotes, setAnyNotes] = useState<Array<number | null>>([null, null, null]);
+
+  // FIXME: not sure if i need useEffect here?
+  const { keyName, mode, shapeSystem } = settings;
 
   const [chords, setChords] = useState<PopularChords>(filterChords(mode, melody, bass, anyNotes));
 
@@ -37,12 +44,8 @@ function App() {
     <>
       <h1>Shape Note Chord Builder</h1>
       <Settings
-        keyName={keyName}
-        setKeyName={setKeyName}
-        mode={mode}
-        setMode={setMode}
-        shapeSystem={shapeSystem}
-        setShapeSystem={setShapeSystem}
+        settings={settings}
+        setSettings={setSettings}
       />
       <table>
         <tbody>
