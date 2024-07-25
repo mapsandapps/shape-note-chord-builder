@@ -18,8 +18,8 @@ export default function Settings(props: SettingsProps) {
         <legend>Mode:</legend>
 
         <label>
-          <select onChange={(e) => setSettings({ ...settings, keyName: e.target.value })} value={keyName || undefined}>
-          <option value="null">--Key (optional)--</option>
+          <select onChange={(e) => setSettings({ ...settings, keyName: e.target.value === 'none' ? null : e.target.value })} value={keyName || undefined}>
+          <option value="none">--Key (optional)--</option>
           {getKeyOptions(mode).map((key) => (
               <option value={key} key={key}>
               { key }
