@@ -1,14 +1,14 @@
-import { Chord, Mode, ShapeSystem } from './helpers';
+import { Chord as ChordType, Mode, ShapeSystem } from './helpers';
 import Shape from './Shape';
 
 interface ChordProps {
-  chord: Chord;
+  chord: ChordType;
   keyName: string | null;
   mode: Mode;
   shapeSystem: ShapeSystem
 }
 
-export default function PitchPicker(props: ChordProps) {
+export default function Chord(props: ChordProps) {
   const { chord, keyName, mode, shapeSystem } = props;
 
   return (

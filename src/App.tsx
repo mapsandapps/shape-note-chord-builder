@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Mode, PopularChords, ShapeSystem, filterChords } from './helpers';
-import { getKeyOptions } from './keys';
 import Chord from './Chord';
 import PitchPicker from './PitchPicker';
 import './App.css';
+import Settings from './Settings';
 
 function App() {
   const [keyName, setKeyName] = useState<string | null>(null);
@@ -36,42 +36,14 @@ function App() {
   return (
     <>
       <h1>Shape Note Chord Builder</h1>
-      <fieldset>
-        <legend>Mode:</legend>
-
-        <label>
-          <select onChange={(e) => setKeyName(e.target.value)} value={keyName || undefined}>
-            <option value="null">--Key (optional)--</option>
-            {getKeyOptions(mode).map((key) => (
-              <option value={key} key={key}>
-                { key }
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          <input type="radio" checked={mode === Mode.major} onChange={() => setMode(Mode.major)} />
-          Major
-        </label>
-
-        <label>
-          <input type="radio" checked={mode === Mode.minor} onChange={() => setMode(Mode.minor)} />
-          Minor
-        </label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Shapes:</legend>
-
-        <label>
-          <input type="radio" checked={shapeSystem === ShapeSystem.four} onChange={() => setShapeSystem(ShapeSystem.four)} />4 shapes
-        </label>
-
-        <label>
-          <input type="radio" checked={shapeSystem === ShapeSystem.seven} onChange={() => setShapeSystem(ShapeSystem.seven)} />7 shapes (Aikin)
-        </label>
-      </fieldset>
+      <Settings
+        keyName={keyName}
+        setKeyName={setKeyName}
+        mode={mode}
+        setMode={setMode}
+        shapeSystem={shapeSystem}
+        setShapeSystem={setShapeSystem}
+      />
       <table>
         <tbody>
           <tr>
