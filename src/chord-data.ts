@@ -1,4 +1,5 @@
-import { Chord, Mode, PopularChords } from './helpers';
+import { Chord, ChordNotation, Mode, Note, PopularChords } from './helpers';
+import { getNoteName } from './keys';
 
 // both major & minor
 const chordPitches = {
@@ -16,13 +17,13 @@ const chordPitches = {
   'VII': [7, 2, 4]
 }
 
-const getInversion = (chordComposition: string): number | null => {
-  if (chordComposition === '') return null
+const getInversion = (chordComposition: string): number => {
+  if (chordComposition === '') return 0
   if (chordComposition === '' || chordComposition === '53' || chordComposition === '5' || chordComposition === '3') return 0
   else if (chordComposition === '63' || chordComposition === '6') return 1
   else if (chordComposition === '64' || chordComposition === '4') return 2
   else console.log('inversion string error')
-  return null
+  return 0
 }
 
 export const getChordFromChordName = (chordName: string): Chord => {
@@ -39,7 +40,8 @@ export const getChordFromChordName = (chordName: string): Chord => {
   if (!pitches) console.log('pitch error')
   
   return {
-    name: chordName,
+    fullName: chordName,
+    name: chord,
     rootPitch: pitches[0],
     inversion,
     notes: [
@@ -198,4 +200,64 @@ export const getPopularChords = (mode: Mode, melody: number | null, hasAnyNoteSe
     lessCommon: chordsByPopularity[mode].lessCommon.map(chord => getChordFromChordName(chord)),
     other: []
   }
+}
+
+const getChordMode = (chordName: string, keyName: string | null): string | null => {
+  if (!keyName) return null
+
+  if (chordName === chordName.toLowerCase()) return Mode.minor
+  return Mode.major
+}
+
+const getGuitarNotation = (chordName: string, notes: Note[], inversion: number, mode: Mode, keyName: string | null): string => {
+  const chordMode = getChordMode(chordName, keyName)
+
+  if (!notes[0]) return chordName
+  if (keyName) {
+    if (inversion === 1) {
+      if (!notes[1]) return chordName
+      return `${getNoteName(mode, keyName, notes[0].pitch)}${chordMode === Mode.minor ? ' minor' : ''} (${chordName})/${getNoteName(mode, keyName, notes[1].pitch)}`
+    }
+
+    if (inversion === 2) {
+      if (!notes[2]) return chordName
+      return `${getNoteName(mode, keyName, notes[0].pitch)}${chordMode === Mode.minor ? ' minor' : ''} (${chordName})/${getNoteName(mode, keyName, notes[2].pitch)}`
+    }
+
+    return `${getNoteName(mode, keyName, notes[0].pitch)}${chordMode === Mode.minor ? ' minor' : ''} (${chordName})`
+  } 
+
+    if (inversion === 1) return `${chordName}/3`
+    if (inversion === 2) return `${chordName}/5`
+    return chordName
+}
+
+const getInversionNotation = (chordName: string, inversion: number): string => {
+  if (inversion === 1) return `${chordName}, 1st inversion`
+  if (inversion === 2) return `${chordName}, 2nd inversion`
+  return chordName
+}
+
+export const getChordDisplayName = (chord: string, notation: ChordNotation, mode: Mode, keyName: string | null): string => {
+  const { fullName, inversion, name, notes } = getChordFromChordName(chord);
+
+  if (notation === ChordNotation.auto) {
+    // if there's a key, return guitar notation (e.g. "B♭/F")
+    // otherwise, return inversion notation (e.g. "I, 2nd inversion")
+    if (keyName) return getGuitarNotation(name, notes, inversion, mode, keyName)
+    return getInversionNotation(name, inversion)
+  };
+
+  if (notation === ChordNotation.guitar) {
+    return getGuitarNotation(name, notes, inversion, mode, keyName)
+  };
+
+  if (notation === ChordNotation.inversion) {
+    return getInversionNotation(name, inversion)
+  };
+
+  if (notation === ChordNotation.figuredBass) return fullName;
+
+  // this return should never happen
+  return fullName
 }

@@ -31,9 +31,10 @@ export enum ShapeSystem {
 }
 
 export type Chord = {
+  fullName: string;
   name: string;
   rootPitch: number;
-  inversion?: number | null;
+  inversion: number;
   notes: Array<Note>;
 };
 
@@ -50,9 +51,17 @@ export type PopularChords = {
 }
 
 export type Settings = {
+  chordNotation: ChordNotation;
   keyName: string | null;
   mode: Mode;
   shapeSystem: ShapeSystem;
+}
+
+export enum ChordNotation {
+  auto = 'Auto',
+  guitar = 'Guitar',
+  inversion = 'Inversion',
+  figuredBass = 'Figured bass'
 }
 
 export const getSyllable = (pitch: number, mode: Mode = Mode.major, shapeSystem: ShapeSystem): Syllable => {

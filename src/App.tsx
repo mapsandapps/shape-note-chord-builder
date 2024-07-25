@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Mode, PopularChords, Settings as SettingsType, ShapeSystem, filterChords } from './helpers';
+import { ChordNotation, Mode, PopularChords, Settings as SettingsType, ShapeSystem, filterChords } from './helpers';
 import Chord from './components/Chord';
 import PitchPicker from './components/PitchPicker';
 import './App.css';
 import Settings from './components/Settings';
 
 const defaultSettings: SettingsType = {
+  chordNotation: ChordNotation.auto,
   keyName: null,
   mode: Mode.major,
   shapeSystem: ShapeSystem.four
@@ -105,6 +106,7 @@ function App() {
           mode={mode} 
           key={chord.name} 
           keyName={keyName}
+          settings={settings}
           shapeSystem={shapeSystem}
         />
       ))}
@@ -119,6 +121,7 @@ function App() {
           mode={mode} 
           key={chord.name} 
           keyName={keyName}
+          settings={settings}
           shapeSystem={shapeSystem}
         />
       ))}
@@ -137,6 +140,7 @@ function App() {
           mode={mode} 
           key={chord.name} 
           keyName={keyName}
+          settings={settings}
           shapeSystem={shapeSystem}
         />
       ))}

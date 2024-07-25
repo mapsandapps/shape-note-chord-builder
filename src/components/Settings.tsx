@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Mode, Settings as SettingsType, ShapeSystem } from '../helpers';
+import { ChordNotation, Mode, Settings as SettingsType, ShapeSystem } from '../helpers';
 import { getKeyOptions } from '../keys';
 import './Settings.css';
 
@@ -10,7 +10,7 @@ interface SettingsProps {
 
 export default function Settings(props: SettingsProps) {
   const { settings, setSettings } = props;
-  const { keyName, mode, shapeSystem } = settings;
+  const { chordNotation, keyName, mode, shapeSystem } = settings;
 
   return (
     <>
@@ -50,6 +50,23 @@ export default function Settings(props: SettingsProps) {
         })}
 
       </fieldset>
+
+      <details>
+        <summary>Advanced settings</summary>
+
+      <fieldset>
+        <legend>Chord notation:</legend>
+
+        {(Object.keys(ChordNotation) as Array<keyof typeof ChordNotation>).map(k => {
+          return (
+            <label className="mode" key={k}>
+              <input type="radio" checked={chordNotation === ChordNotation[k]} onChange={() => setSettings({ ...settings, chordNotation: ChordNotation[k]})} />
+              { ChordNotation[k] }
+            </label>
+          )
+        })}
+        </fieldset>
+      </details>
     </>
   );
 }
