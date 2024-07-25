@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Mode, PopularChords, Settings as SettingsType, ShapeSystem, filterChords } from './helpers';
-import Chord from './Chord';
-import PitchPicker from './PitchPicker';
+import Chord from './components/Chord';
+import PitchPicker from './components/PitchPicker';
 import './App.css';
-import Settings from './Settings';
+import Settings from './components/Settings';
 
 const defaultSettings: SettingsType = {
   keyName: null,

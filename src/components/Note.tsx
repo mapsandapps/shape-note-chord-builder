@@ -1,6 +1,6 @@
 import './Note.css';
-import { Mode, Note as NoteType, ShapeSystem, getShape, getSyllable } from './helpers';
-import { getNoteName } from './keys';
+import { Mode, Note as NoteType, ShapeSystem, getShape, getSyllable } from '../helpers';
+import { getNoteName } from '../keys';
 
 interface NoteProps {
   note: NoteType;

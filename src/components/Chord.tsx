@@ -1,4 +1,4 @@
-import { Chord as ChordType, Mode, ShapeSystem } from './helpers';
+import { Chord as ChordType, Mode, ShapeSystem } from '../helpers';
 import Shape from './Shape';
 
 interface ChordProps {

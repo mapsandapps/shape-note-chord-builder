@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Mode, Settings as SettingsType, ShapeSystem } from './helpers';
-import { getKeyOptions } from './keys';
+import { Mode, Settings as SettingsType, ShapeSystem } from '../helpers';
+import { getKeyOptions } from '../keys';
 import './Settings.css';
 
 interface SettingsProps {
