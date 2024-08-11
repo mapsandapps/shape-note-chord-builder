@@ -14,9 +14,6 @@ export default function Chord(props: ChordProps) {
   const { chord, keyName, mode, settings, shapeSystem } = props;
   const { chordNotation } = settings;
 
-  console.log(JSON.stringify(settings))
-  console.log(chordNotation)
-
   return (
     <div className="chord">
       <div className="chord-name">{getChordDisplayName(props.chord.fullName, chordNotation, mode, keyName)}</div>

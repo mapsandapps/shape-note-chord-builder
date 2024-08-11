@@ -24,6 +24,8 @@ export default function Shape(props: ShapeProps) {
   // @ts-ignore
   const noteName = getNoteName(mode, keyName, note.pitch);
 
+  console.log(JSON.stringify(note))
+
   const leftMargin = 24
 
   return (
@@ -78,7 +80,9 @@ export default function Shape(props: ShapeProps) {
             <text x={20 + leftMargin} y="38" style={{ fill: 'white'}}>{ note.pitch }</text>
           </>
         )}
-        {note.isBass && (<text x={`${50 + leftMargin}`} y="38" style={{ fontSize: '10px' }}>bass</text>) }
+        {(note.isAny && !note.isMelody && !note.isBass) && (<text x={`${50 + leftMargin}`} y="36" style={{ fontSize: '14px' }}>&nbsp;✓</text>)}
+        {note.isMelody && (<text x={`${50 + leftMargin}`} y="30" style={{ fontSize: '10px' }}>melody</text>) }
+        {note.isBass && (<text x={`${50 + leftMargin}`} y="46" style={{ fontSize: '10px' }}>bass</text>) }
       </svg>
     </div>
   );

@@ -42,6 +42,7 @@ export type Note = {
   pitch: number;
   isMelody?: boolean;
   isBass?: boolean;
+  isAny?: boolean;
 } | null;
 
 export type PopularChords = {
@@ -114,10 +115,18 @@ const setMelodyOnNote = (note: Note, melody: number | null): boolean => {
   return note?.pitch === melody
 }
 
-const resetMelodyOnNotes = (chords: Array<Chord>) => {
+const setAnyOnNote = (note: Note, any: number | null): boolean => {
+  if (note?.pitch === any) {
+    note.isAny = true
+  }
+  return note?.pitch === any
+}
+
+const resetNotes = (chords: Array<Chord>) => {
   chords.forEach(chord => {
     chord.notes.forEach((note: Note) => {
       note!.isMelody = false;
+      note!.isAny = false;
     })
   })
 }
@@ -126,8 +135,8 @@ export const filterChords = (mode: Mode, melody: number | null, bass: number | n
   const hasOthers = Boolean(others.some(() => {}))
   let chords = getPopularChords(mode, melody, Boolean(melody || bass || hasOthers))
 
-  resetMelodyOnNotes(chords.mostCommon)
-  resetMelodyOnNotes(chords.lessCommon)
+  resetNotes(chords.mostCommon)
+  resetNotes(chords.lessCommon)
 
   // TODO: DRY
   if (bass) {
@@ -140,12 +149,14 @@ export const filterChords = (mode: Mode, melody: number | null, bass: number | n
     chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  setMelodyOnNote(note, melody)))
   }
 
-  others.forEach(otherNote => {
-    if (otherNote) {
-      chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) =>  note?.pitch === otherNote))
-      chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  note?.pitch === otherNote))
+  others.forEach(any => {
+    if (any) {
+      chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) =>  setAnyOnNote(note, any)))
+      chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  setAnyOnNote(note, any)))
     }
   });
+
+  console.log(JSON.stringify(chords))
 
   return chords
 }
