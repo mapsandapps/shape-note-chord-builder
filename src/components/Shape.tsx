@@ -24,8 +24,6 @@ export default function Shape(props: ShapeProps) {
   // @ts-ignore
   const noteName = getNoteName(mode, keyName, note.pitch);
 
-  console.log(JSON.stringify(note))
-
   const leftMargin = 24
 
   return (
