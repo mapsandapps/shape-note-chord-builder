@@ -36,23 +36,22 @@ export default function Settings(props: SettingsProps) {
             </label>
           )
         })}
-        </fieldset>
-
-        <fieldset>
-        <legend>Shapes:</legend>
-
-        {(Object.keys(ShapeSystem) as Array<keyof typeof ShapeSystem>).map(k => {
-          return (
-            <label key={k}>
-              <input type="radio" checked={shapeSystem === ShapeSystem[k]} onChange={() => setSettings({ ...settings, shapeSystem: ShapeSystem[k] })} />{ ShapeSystem[k] }
-            </label>
-          )
-        })}
-
       </fieldset>
 
       <details>
         <summary>Advanced settings</summary>
+
+        <fieldset>
+          <legend>Shapes:</legend>
+
+          {(Object.keys(ShapeSystem) as Array<keyof typeof ShapeSystem>).map(k => {
+            return (
+              <label key={k}>
+                <input type="radio" checked={shapeSystem === ShapeSystem[k]} onChange={() => setSettings({ ...settings, shapeSystem: ShapeSystem[k] })} />{ ShapeSystem[k] }
+              </label>
+            )
+          })}
+        </fieldset>
 
       <fieldset>
         <legend>Chord notation:</legend>
