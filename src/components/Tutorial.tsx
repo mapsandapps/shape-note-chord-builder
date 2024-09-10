@@ -23,7 +23,7 @@ export default function Tutorial() {
       <p>If you input the key in the settings at the top, the chord and notes will reflect the letters of the notes.</p>
       <h2>Chords with two notes</h2>
       <img src={noThirdImage} />
-      <p>Some recommended chords only have two notes. When this happens, the complete chord will be shown in the "other" chords section.</p>
+      <p>Some recommended chords only have two notes. When this happens, the complete chord will be shown elsewhere in the chords list.</p>
     </>
   );
 }

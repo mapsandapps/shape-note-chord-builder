@@ -101,10 +101,11 @@ export default function Main() {
       )}
 
       {chords.mostCommon.map((chord) => (
+        // note: the 'key' prop here is the react key, not the musical key
         <Chord 
+          key={chord.fullName}
           chord={chord}
           mode={mode} 
-          key={chord.name} 
           keyName={keyName}
           settings={settings}
           shapeSystem={shapeSystem}
@@ -116,10 +117,11 @@ export default function Main() {
       )}
 
       {chords.lessCommon.map((chord) => (
+        // note: the 'key' prop here is the react key, not the musical key
         <Chord 
+          key={chord.fullName}
           chord={chord}
           mode={mode} 
-          key={chord.name} 
           keyName={keyName}
           settings={settings}
           shapeSystem={shapeSystem}
@@ -135,10 +137,11 @@ export default function Main() {
       )}
 
       {chords.other.map((chord) => (
+        // note: the 'key' prop here is the react key, not the musical key
         <Chord 
+          key={chord.fullName}
           chord={chord}
           mode={mode} 
-          key={chord.name} 
           keyName={keyName}
           settings={settings}
           shapeSystem={shapeSystem}

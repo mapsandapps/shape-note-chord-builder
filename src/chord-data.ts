@@ -22,7 +22,7 @@ const getInversion = (chordComposition: string): number => {
   if (chordComposition === '' || chordComposition === '53' || chordComposition === '5' || chordComposition === '3') return 0
   else if (chordComposition === '63' || chordComposition === '6') return 1
   else if (chordComposition === '64' || chordComposition === '4') return 2
-  else console.log('inversion string error')
+  else console.warn('inversion string error')
   return 0
 }
 
@@ -37,7 +37,7 @@ export const getChordFromChordName = (chordName: string): Chord => {
   // @ts-ignore
   const pitches: Array<number> = chordPitches[chord]
 
-  if (!pitches) console.log('pitch error')
+  if (!pitches) console.warn('pitch error')
   
   return {
     fullName: chordName,
