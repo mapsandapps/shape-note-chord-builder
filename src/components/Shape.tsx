@@ -16,15 +16,24 @@ export default function Shape(props: ShapeProps) {
     return <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg"></svg>
   }
 
+  console.log(note.isAny)
+
   const syllable = getSyllable(note.pitch, mode, shapeSystem);
   const shape = getShape(syllable);
 
-  const shapeStyle = { fill: isFaded ? 'cornflowerblue' : 'darkblue' };
+  const isNoteSelected = (note.isAny || note.isMelody)
+
+  const shapeStyle = { 
+    fill: isFaded ? 'cornflowerblue' : 'darkblue', 
+    strokeWidth: isNoteSelected ? '3px' : '0px',
+    stroke: 'lime' 
+  };
 
   // @ts-ignore
   const noteName = getNoteName(mode, keyName, note.pitch);
 
   const leftMargin = 32
+  const rightTextLeftMargin = 58
 
   return (
     <div>
@@ -78,9 +87,9 @@ export default function Shape(props: ShapeProps) {
             <text x={20 + leftMargin} y="38" style={{ fill: 'white'}}>{ note.pitch }</text>
           </>
         )}
-        {(note.isAny && !note.isMelody && !note.isBass) && (<text x={`${50 + leftMargin}`} y="36" style={{ fontSize: '14px' }}>&nbsp;✓</text>)}
-        {note.isMelody && (<text x={`${50 + leftMargin}`} y="30" style={{ fontSize: '10px' }}>melody</text>) }
-        {note.isBass && (<text x={`${50 + leftMargin}`} y="46" style={{ fontSize: '10px' }}>bass</text>) }
+        {(note.isAny && !note.isMelody && !note.isBass) && (<text x={`${leftMargin + rightTextLeftMargin}`} y="36" style={{ fontSize: '14px' }}>&nbsp;✓</text>)}
+        {note.isMelody && (<text x={`${leftMargin + rightTextLeftMargin}`} y="30" style={{ fontSize: '10px' }}>melody</text>) }
+        {note.isBass && (<text x={`${leftMargin + rightTextLeftMargin}`} y="46" style={{ fontSize: '10px' }}>bass</text>) }
       </svg>
     </div>
   );

@@ -133,8 +133,9 @@ const resetNotes = (chords: Array<Chord>) => {
 
 const getInversionsWithBassNoteInWrongPlace = (chords: PopularChords, bass: number | null): Chord[] => {
   return [
-    ...chords.mostCommon.filter((chord) => chord.notes.find((note) => note?.pitch === bass)), 
-    ...chords.lessCommon.filter((chord) => chord.notes.find((note) => note?.pitch === bass))
+    ...chords.mostCommon.filter((chord) => chord.notes.find((note) => note?.pitch === bass)),
+    ...chords.lessCommon.filter((chord) => chord.notes.find((note) => note?.pitch === bass)),
+    ...chords.other.filter((chord) => chord.notes.find((note) => note?.pitch === bass))
   ]
 
 }
@@ -145,6 +146,7 @@ export const filterChords = (mode: Mode, melody: number | null, bass: number | n
 
   resetNotes(chords.mostCommon)
   resetNotes(chords.lessCommon)
+  resetNotes(chords.other)
 
   // TODO: DRY
   if (bass) {
@@ -158,12 +160,14 @@ export const filterChords = (mode: Mode, melody: number | null, bass: number | n
   if (melody) {
     chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) =>  setMelodyOnNote(note, melody)))
     chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  setMelodyOnNote(note, melody)))
+    chords.other = chords.other.filter((chord) => chord.notes.find((note) =>  setMelodyOnNote(note, melody)))
   }
 
   others.forEach(any => {
     if (any) {
       chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) =>  setAnyOnNote(note, any)))
       chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  setAnyOnNote(note, any)))
+      chords.other = chords.other.filter((chord) => chord.notes.find((note) =>  setAnyOnNote(note, any)))
     }
   });
 
