@@ -19,11 +19,9 @@ export default function Shape(props: ShapeProps) {
   const syllable = getSyllable(note.pitch, mode, shapeSystem);
   const shape = getShape(syllable);
 
-  const isNoteSelected = (note.isAny || note.isMelody)
-
   const shapeStyle = { 
     fill: isFaded ? 'cornflowerblue' : 'darkblue', 
-    strokeWidth: isNoteSelected ? '3px' : '0px',
+    strokeWidth: note.isSelected ? '3px' : '0px',
     stroke: 'lime' 
   };
 
@@ -34,7 +32,7 @@ export default function Shape(props: ShapeProps) {
   const rightTextLeftMargin = 58
 
   return (
-    <div>
+    <div className="shape">
       <svg height="64" width="128" xmlns="http://www.w3.org/2000/svg">
         {shape === '◺' && (
           <>
@@ -85,9 +83,10 @@ export default function Shape(props: ShapeProps) {
             <text x={20 + leftMargin} y="38" style={{ fill: 'white'}}>{ note.pitch }</text>
           </>
         )}
-        {(note.isAny && !note.isMelody && !note.isBass) && (<text x={`${leftMargin + rightTextLeftMargin}`} y="36" style={{ fontSize: '14px' }}>&nbsp;✓</text>)}
-        {note.isMelody && (<text x={`${leftMargin + rightTextLeftMargin}`} y="30" style={{ fontSize: '10px' }}>melody</text>) }
-        {note.isBass && (<text x={`${leftMargin + rightTextLeftMargin}`} y="46" style={{ fontSize: '10px' }}>bass</text>) }
+        {/* {(note.isSelected && !note.isSelectedMelody && !note.isBass) && (<text x={`${leftMargin + rightTextLeftMargin}`} y="36" style={{ fontSize: '14px' }}>&nbsp;✓</text>)} */}
+        {note.isSelectedMelody && (<text x={`${leftMargin + rightTextLeftMargin}`} y="30" style={{ fontSize: '10px' }}>melody</text>) }
+        {(note.isBass || note.isSelectedBass) && (<text x={`${leftMargin + rightTextLeftMargin}`} y="46" style={{ fontSize: '10px', fill: note.isSelectedBass ? 'green' : 'black' }}>bass{!note.isSelectedBass && '*'}</text>) }
+        {(note.isSelectedBass) && (<text x={`${leftMargin + rightTextLeftMargin + 20}`} y="46" style={{ fontSize: '14px', fill: 'green' }}>&nbsp;✓</text>)}
       </svg>
     </div>
   );

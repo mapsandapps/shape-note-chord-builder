@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChordNotation, Mode, PopularChords, Settings as SettingsType, ShapeSystem, filterChords } from '../helpers';
+import { Chord as ChordType, ChordNotation, Mode, PopularChords, Settings as SettingsType, ShapeSystem, filterChords } from '../helpers';
 import Chord from '../components/Chord';
 import PitchPicker from '../components/PitchPicker';
 import Settings from '../components/Settings';
@@ -15,6 +15,7 @@ export default function Main() {
   const [settings, setSettings] = useState<SettingsType>(defaultSettings);
   const [melody, setMelody] = useState<number | null>(null);
   const [bass, setBass] = useState<number | null>(null);
+  const [isFootnoteShowing, setFootnoteShowing] = useState<boolean>(false);
   const [anyNotes, setAnyNotes] = useState<Array<number | null>>([null, null, null]);
 
   // FIXME: not sure if i need useEffect here?
@@ -26,6 +27,38 @@ export default function Main() {
     setChords(filterChords(mode, melody, bass, anyNotes))
     // TODO: may need key, shapeSystem here?
   }, [anyNotes, bass, melody, mode])
+
+  const getSelectedBassDiffersFromSuggested = (chord: ChordType): boolean => {
+    const suggestedBassIndex = chord.notes.findIndex((note) => {
+      return note?.isBass
+    })
+    const selectedBassIndex = chord.notes.findIndex((note) => {
+      return note?.isSelectedBass
+    })
+
+    console.log({ suggestedBassIndex, selectedBassIndex })
+    return suggestedBassIndex != selectedBassIndex
+  }
+
+  useEffect(() => {
+    setFootnoteShowing(false)
+
+    chords.mostCommon.map(chord => {
+      if (getSelectedBassDiffersFromSuggested(chord)) {
+        setFootnoteShowing(true)
+      }
+    })
+    chords.lessCommon.map(chord => {
+      if (getSelectedBassDiffersFromSuggested(chord)) {
+        setFootnoteShowing(true)
+      }
+    })
+    chords.other.map(chord => {
+      if (getSelectedBassDiffersFromSuggested(chord)) {
+        setFootnoteShowing(true)
+      }
+    })
+  }, [chords])
 
   const onSelectNote = (e: React.ChangeEventHandler<HTMLSelectElement> | undefined, index: number) => {
     const notes = [ ...anyNotes ]
@@ -147,6 +180,10 @@ export default function Main() {
           shapeSystem={shapeSystem}
         />
       ))}
+
+      {isFootnoteShowing && (
+        <div className="footnote">* This is the suggested bass note for the chord inversion, which may differ from your selected bass note.</div>
+      )}
     </>
   );
 }

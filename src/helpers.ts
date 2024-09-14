@@ -40,9 +40,10 @@ export type Chord = {
 
 export type Note = {
   pitch: number;
-  isMelody?: boolean;
   isBass?: boolean;
-  isAny?: boolean;
+  isSelected?: boolean;
+  isSelectedBass?: boolean;
+  isSelectedMelody?: boolean;
 } | null;
 
 export type PopularChords = {
@@ -108,16 +109,26 @@ export const getShape = (syllable: Syllable): Shape => {
   else return Shape.diamond;
 };
 
+const setBassOnNote = (note: Note, bass: number | null): boolean => {
+  if (note?.pitch === bass) {
+    note.isSelected = true // NOTE: where was this happening before?
+    note.isSelectedBass = true
+  }
+  // i think this was only supposed to return true if the selected bass note is the bass note of the chord
+  return (note?.isBass && note?.pitch === bass) || false
+}
+
 const setMelodyOnNote = (note: Note, melody: number | null): boolean => {
   if (note?.pitch === melody) {
-    note.isMelody = true
+    note.isSelected = true
+    note.isSelectedMelody = true
   }
   return note?.pitch === melody
 }
 
-const setAnyOnNote = (note: Note, any: number | null): boolean => {
+const setSelectedOnNote = (note: Note, any: number | null): boolean => {
   if (note?.pitch === any) {
-    note.isAny = true
+    note.isSelected = true
   }
   return note?.pitch === any
 }
@@ -125,8 +136,9 @@ const setAnyOnNote = (note: Note, any: number | null): boolean => {
 const resetNotes = (chords: Array<Chord>) => {
   chords.forEach(chord => {
     chord.notes.forEach((note: Note) => {
-      note!.isMelody = false;
-      note!.isAny = false;
+      note!.isSelected = false;
+      note!.isSelectedBass = false;
+      note!.isSelectedMelody = false;
     })
   })
 }
@@ -137,7 +149,6 @@ const getInversionsWithBassNoteInWrongPlace = (chords: PopularChords, bass: numb
     ...chords.lessCommon.filter((chord) => chord.notes.find((note) => note?.pitch === bass)),
     ...chords.other.filter((chord) => chord.notes.find((note) => note?.pitch === bass))
   ]
-
 }
 
 export const filterChords = (mode: Mode, melody: number | null, bass: number | null, others: Array<number | null>): PopularChords => {
@@ -148,13 +159,15 @@ export const filterChords = (mode: Mode, melody: number | null, bass: number | n
   resetNotes(chords.lessCommon)
   resetNotes(chords.other)
 
-  // TODO: DRY
   if (bass) {
     const extraBassChords = getInversionsWithBassNoteInWrongPlace(chords, bass)
-    chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) => note?.isBass && note.pitch === bass))
-    chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) => note?.isBass && note.pitch === bass))
-    // display chords where the bass isn't in the right spot
-    chords.other = extraBassChords
+    chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) => setBassOnNote(note, bass)))
+    chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) => setBassOnNote(note, bass)))
+    chords.other = chords.other.filter((chord) => chord.notes.find((note) => { return setBassOnNote(note, bass) }))
+    // if there are no chords displayed, display chords where the bass isn't in the right spot
+    if (chords.mostCommon.length + chords.lessCommon.length + chords.other.length === 0) {
+      chords.other = extraBassChords
+    }
   }
 
   if (melody) {
@@ -165,9 +178,9 @@ export const filterChords = (mode: Mode, melody: number | null, bass: number | n
 
   others.forEach(any => {
     if (any) {
-      chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) =>  setAnyOnNote(note, any)))
-      chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  setAnyOnNote(note, any)))
-      chords.other = chords.other.filter((chord) => chord.notes.find((note) =>  setAnyOnNote(note, any)))
+      chords.mostCommon = chords.mostCommon.filter((chord) => chord.notes.find((note) =>  setSelectedOnNote(note, any)))
+      chords.lessCommon = chords.lessCommon.filter((chord) => chord.notes.find((note) =>  setSelectedOnNote(note, any)))
+      chords.other = chords.other.filter((chord) => chord.notes.find((note) =>  setSelectedOnNote(note, any)))
     }
   });
 

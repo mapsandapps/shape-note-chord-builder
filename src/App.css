@@ -8,16 +8,21 @@ details summary {
 }
 
 .chord {
+  vertical-align: top;
   border: 1px solid black;
   border-radius: 2px;
   display: inline-block;
   padding: 8px;
   margin: 8px;
+  width: calc(128px + 16px);
+  /* min-height: calc(70px * 3 + 16px + 48px); */
 }
 
 .chord-name {
   font-family: 'Courier New', Courier, monospace;
   border-bottom: 1px solid black;
+  /* min-height: 48px; */
+  vertical-align: text-bottom;
 }
 
 button {
