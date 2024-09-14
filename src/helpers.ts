@@ -174,7 +174,5 @@ export const filterChords = (mode: Mode, melody: number | null, bass: number | n
     }
   });
 
-  console.log(JSON.stringify(chords, null, 2))
-
   return chords
 }

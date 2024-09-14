@@ -209,6 +209,7 @@ const getChordMode = (chordName: string, keyName: string | null): string | null 
 }
 
 const getGuitarNotation = (chordName: string, notes: Note[], inversion: number, mode: Mode, keyName: string | null): string => {
+  // TODO: fix this one too
   const chordMode = getChordMode(chordName, keyName)
 
   if (!notes[0]) return chordName
@@ -237,27 +238,36 @@ const getInversionNotation = (chordName: string, inversion: number): string => {
   return chordName
 }
 
+const getMissingNotes = (notes: Note[]): string => {
+  // NOTE: this is not needed in 'figured bass' mode because that name already includes this information
+  if (notes[1] && !notes[1].pitch) return ' (no 3)'
+  if (notes[2] && !notes[2].pitch) return ' (no 5)'
+  return ''
+}
+
 export const getChordDisplayName = (chord: string, notation: ChordNotation, mode: Mode, keyName: string | null): string => {
   const { fullName, inversion, name, notes } = getChordFromChordName(chord);
+
+  console.log({ fullName, inversion, name, notes })
+
+  const guitarNotation = getGuitarNotation(name, notes, inversion, mode, keyName)
+  const inversionNotation = getInversionNotation(name, inversion)
+  const missingNotes = getMissingNotes(notes)
 
   switch (notation) {
     case ChordNotation.auto:
       // if there's a key, return guitar notation (e.g. "B♭/F")
       // otherwise, return inversion notation (e.g. "I, 2nd inversion")
-      if (keyName) return getGuitarNotation(name, notes, inversion, mode, keyName)
-      return getInversionNotation(name, inversion)
-      break
+      if (keyName) return guitarNotation + missingNotes
+      return inversionNotation + missingNotes
 
     case ChordNotation.guitar:
-      return getGuitarNotation(name, notes, inversion, mode, keyName)
-      break
+      return guitarNotation + missingNotes
 
     case ChordNotation.inversion:
-      return getInversionNotation(name, inversion)
-      break
+      return inversionNotation + missingNotes
 
     case ChordNotation.figuredBass:
       return fullName
-      break
   }
 }
