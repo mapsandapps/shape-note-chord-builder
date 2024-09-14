@@ -1,4 +1,4 @@
-import { Chord, ChordNotation, Mode, Note, PopularChords } from './helpers';
+import { Chord, ChordNotation, Mode, Note, PopularChords } from './types';
 import { getNoteName } from './keys';
 
 // both major & minor

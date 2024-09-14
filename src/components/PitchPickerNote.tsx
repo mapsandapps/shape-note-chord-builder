@@ -1,4 +1,5 @@
-import { Mode, Note as NoteType, ShapeSystem, getShape, getSyllable } from '../helpers';
+import { getShape, getSyllable } from '../helpers';
+import { Mode, Note as NoteType, ShapeSystem } from '../types';
 import { getNoteName } from '../keys';
 
 interface PitchPickerNoteProps {

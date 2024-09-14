@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Chord as ChordType, ChordNotation, Mode, PopularChords, Settings as SettingsType, ShapeSystem, filterChords } from '../helpers';
+import { Chord as ChordType, ChordNotation, Mode, PopularChords, Settings as SettingsType, ShapeSystem } from '../types';
+import { filterChords } from '../helpers';
 import Chord from '../components/Chord';
 import PitchPicker from '../components/PitchPicker';
 import Settings from '../components/Settings';
@@ -36,7 +37,6 @@ export default function Main() {
       return note?.isSelectedBass
     })
 
-    console.log({ suggestedBassIndex, selectedBassIndex })
     return suggestedBassIndex != selectedBassIndex
   }
 

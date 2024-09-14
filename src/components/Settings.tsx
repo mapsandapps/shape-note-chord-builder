@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ChordNotation, Mode, Settings as SettingsType, ShapeSystem } from '../helpers';
+import { ChordNotation, Mode, Settings as SettingsType, ShapeSystem } from '../types';
 import { getKeyOptions } from '../keys';
 import './Settings.css';
 

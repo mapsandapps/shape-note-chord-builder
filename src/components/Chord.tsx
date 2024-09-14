@@ -1,5 +1,5 @@
 import { getChordDisplayName } from '../chord-data';
-import { Chord as ChordType, Mode, Settings, ShapeSystem } from '../helpers';
+import { Chord as ChordType, Mode, Settings, ShapeSystem } from '../types';
 import Shape from './Shape';
 
 interface ChordProps {

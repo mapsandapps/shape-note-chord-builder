@@ -1,4 +1,5 @@
-import { Mode, Note, ShapeSystem, getShape, getSyllable } from '../helpers';
+import { getShape, getSyllable } from '../helpers';
+import { Mode, Note, ShapeSystem } from '../types';
 import { getNoteName } from '../keys';
 
 interface ShapeProps {

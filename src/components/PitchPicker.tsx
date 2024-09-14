@@ -1,4 +1,4 @@
-import { Mode, ShapeSystem } from '../helpers';
+import { Mode, ShapeSystem } from '../types';
 import PitchPickerNote from './PitchPickerNote';
 
 interface PitchPickerProps {
