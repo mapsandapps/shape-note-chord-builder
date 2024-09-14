@@ -1,4 +1,4 @@
-import { Mode } from './helpers';
+import { Mode } from './types';
 
 // i left out A♯, D♭, D♯, G♭, & G♯ because those are not commonly used in either major or minor
 export const scales = {
