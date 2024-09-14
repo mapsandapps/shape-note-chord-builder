@@ -24,6 +24,8 @@ export default function Tutorial() {
       <h2>Chords with two notes</h2>
       <img src={noThirdImage} />
       <p>Some recommended chords only have two notes. When this happens, the complete chord will be shown elsewhere in the chords list.</p>
+
+      <p><em>Built by Shawn Cameron Taylor.</em></p>
     </>
   );
 }
