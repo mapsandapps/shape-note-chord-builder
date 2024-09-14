@@ -248,8 +248,6 @@ const getMissingNotes = (notes: Note[]): string => {
 export const getChordDisplayName = (chord: string, notation: ChordNotation, mode: Mode, keyName: string | null): string => {
   const { fullName, inversion, name, notes } = getChordFromChordName(chord);
 
-  console.log({ fullName, inversion, name, notes })
-
   const guitarNotation = getGuitarNotation(name, notes, inversion, mode, keyName)
   const inversionNotation = getInversionNotation(name, inversion)
   const missingNotes = getMissingNotes(notes)

@@ -1,15 +1,14 @@
-import './Note.css';
 import { Mode, Note as NoteType, ShapeSystem, getShape, getSyllable } from '../helpers';
 import { getNoteName } from '../keys';
 
-interface NoteProps {
+interface PitchPickerNoteProps {
   note: NoteType;
   mode: Mode;
   keyName: string | null;
   shapeSystem: ShapeSystem
 }
 
-export default function Note(props: NoteProps) {
+export default function PitchPickerNote(props: PitchPickerNoteProps) {
   const { keyName, mode, note, shapeSystem } = props;
   if (!note || !note.pitch) {
     return <div>-</div>
@@ -20,11 +19,11 @@ export default function Note(props: NoteProps) {
   // @ts-ignore
   const noteName = getNoteName(mode, keyName, note.pitch);
 
+  const text = `${shape || ''} ${syllable}-${note.pitch}${noteName ? ': ' + noteName : ''}`
+
   return (
-    <div className={`${note.isBass && 'bass'} ${note.isMelody && 'melody'}`}>
-      {shape && ` ${shape}`}
-      {syllable}-{note.pitch} {note.isMelody && <span>(melody)</span>} {note.isBass && <span>(bass)</span>}
-      {noteName && `: ${noteName}`}
+    <div>
+      {text}
     </div>
   );
 }

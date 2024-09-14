@@ -141,11 +141,8 @@ const getInversionsWithBassNoteInWrongPlace = (chords: PopularChords, bass: numb
 }
 
 export const filterChords = (mode: Mode, melody: number | null, bass: number | null, others: Array<number | null>): PopularChords => {
-  console.log({ melody, bass, others })
   const hasOthers = Boolean(others.some(() => {}))
   let chords = getPopularChords(mode, melody, Boolean(melody || bass || hasOthers))
-
-  console.log(JSON.stringify(chords, null, 2))
 
   resetNotes(chords.mostCommon)
   resetNotes(chords.lessCommon)

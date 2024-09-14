@@ -1,5 +1,5 @@
 import { Mode, ShapeSystem } from '../helpers';
-import Note from './Note';
+import PitchPickerNote from './PitchPickerNote';
 
 interface PitchPickerProps {
   mode: Mode;
@@ -21,7 +21,7 @@ export default function PitchPicker(props: PitchPickerProps) {
 
         return (
           <option value={item.toString()} key={shapeSystem + item}>
-            <Note mode={mode} note={note} keyName={keyName} shapeSystem={shapeSystem} />
+            <PitchPickerNote mode={mode} note={note} keyName={keyName} shapeSystem={shapeSystem} />
           </option>
         )
       })}
