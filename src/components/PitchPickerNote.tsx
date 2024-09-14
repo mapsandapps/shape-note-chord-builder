@@ -23,8 +23,8 @@ export default function PitchPickerNote(props: PitchPickerNoteProps) {
   const text = `${shape || ''} ${syllable}-${note.pitch}${noteName ? ': ' + noteName : ''}`
 
   return (
-    <div>
+    <>
       {text}
-    </div>
+    </>
   );
 }

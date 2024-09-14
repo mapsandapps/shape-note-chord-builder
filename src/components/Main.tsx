@@ -13,7 +13,10 @@ const defaultSettings: SettingsType = {
 }
 
 export default function Main() {
-  const [settings, setSettings] = useState<SettingsType>(defaultSettings);
+  const getStoredSettings = () => { return localStorage.getItem('settings') }
+  const storedSettings = getStoredSettings()
+
+  const [settings, setSettings] = useState<SettingsType>(storedSettings ? JSON.parse(storedSettings) : defaultSettings);
   const [melody, setMelody] = useState<number | null>(null);
   const [bass, setBass] = useState<number | null>(null);
   const [isFootnoteShowing, setFootnoteShowing] = useState<boolean>(false);
@@ -23,6 +26,11 @@ export default function Main() {
   const { keyName, mode, shapeSystem } = settings;
 
   const [chords, setChords] = useState<PopularChords>(filterChords(mode, melody, bass, anyNotes));
+
+  // store settings in localstorage
+  useEffect(() => {
+    localStorage.setItem('settings', JSON.stringify(settings))
+  }, [settings])
 
   useEffect(() => {
     setChords(filterChords(mode, melody, bass, anyNotes))
