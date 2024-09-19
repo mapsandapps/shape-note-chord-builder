@@ -189,8 +189,12 @@ export default function Main() {
         />
       ))}
 
-      {isFootnoteShowing && (
-        <div className="footnote">* This is the suggested bass note for the chord inversion, which may differ from your selected bass note.</div>
+      {isFootnoteShowing && !!bass && (
+        <div className="footnote">* This is the suggested bass note for the chord inversion, which differs from your selected bass note.</div>
+      )}
+
+      {isFootnoteShowing && !bass && (
+        <div className="footnote">* Suggested bass note</div>
       )}
     </>
   );
