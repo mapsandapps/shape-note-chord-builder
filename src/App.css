@@ -18,6 +18,10 @@ details summary {
   /* min-height: calc(70px * 3 + 16px + 48px); */
 }
 
+.chord button {
+  width: 100%;
+}
+
 .chord-name {
   font-family: 'Courier New', Courier, monospace;
   border-bottom: 1px solid black;
@@ -27,6 +31,10 @@ details summary {
 
 button {
   border-radius: 8px;
+}
+
+button:not(:last-of-type) {
+  margin-right: 8px;
 }
 
 .warning {

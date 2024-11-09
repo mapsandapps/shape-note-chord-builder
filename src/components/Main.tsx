@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Chord as ChordType, ChordNotation, Mode, PopularChords, Settings as SettingsType, ShapeSystem } from '../types';
-import { filterChords } from '../helpers';
+import { Chord as ChordType, ChordNotation, Mode, PopularChords, Settings as SettingsType, ShapeSystem, Note } from '../types';
+import { filterChords, playChord } from '../helpers';
 import Chord from '../components/Chord';
 import PitchPicker from '../components/PitchPicker';
 import Settings from '../components/Settings';
@@ -81,6 +81,30 @@ export default function Main() {
     setAnyNotes([null, null, null])
   }
 
+  const play = () => {
+    // audibly play any notes selected in the dropdowns
+    const notes: Note[] = []
+
+    let allSelectedNotes = [...anyNotes, bass]
+
+    if (!allSelectedNotes.find(note => { return note === melody })) allSelectedNotes.push(melody)
+
+    allSelectedNotes = allSelectedNotes.sort()
+
+    allSelectedNotes.map(note => {
+      if (!note) return 
+
+      notes.push({
+        pitch: note,
+        isBass: note === bass,
+        isSelectedMelody: note === melody,
+        isSelectedBass: note === bass
+      })
+    })
+
+    playChord(notes, keyName, mode)
+  }
+
   return (
     <>
       <Settings
@@ -129,6 +153,7 @@ export default function Main() {
           <tr>
             <td></td>
             <td>
+              <button onClick={play}>Play</button>
               <button onClick={reset}>Reset</button>
             </td>
           </tr>

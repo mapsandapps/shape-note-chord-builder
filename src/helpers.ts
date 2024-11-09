@@ -1,4 +1,7 @@
+import * as Tone from "tone";
+
 import { getPopularChords } from './chord-data';
+import { getNoteName } from './keys';
 import { Chord, Mode, Note, PopularChords, Shape, ShapeSystem, Syllable } from './types';
 
 export const getSyllable = (pitch: number, mode: Mode = Mode.major, shapeSystem: ShapeSystem): Syllable => {
@@ -120,4 +123,67 @@ export const filterChords = (mode: Mode, melody: number | null, bass: number | n
   });
 
   return chords
+}
+
+// NOTE: if there's no key, default to F major or minor
+const getPlaybackNotes = (notesToPlay: Note[], keyName: string = 'F', mode: Mode): string[] => {
+  // on a piano, playing with two hands, the most standard way to do an inversion is to play the bass note with the left hand and then play the full chord on the right hand, not inverted
+
+  // if there's no bass note, put the notes in the existing chord order
+
+  // if there is a bass note, put it in a lower octave and then put all notes (including the bass note) in their existing order an octave up
+
+  const notes = notesToPlay.filter(note => {
+    // a missing note (e.g. in a chord with no 3) can be included here. remove it for playback.
+    return note?.pitch
+  })
+
+  if (notes.length === 0) return []
+
+  const playbackNotes: string[] = []
+  let lastNotePitch = 0
+  let lastNoteOctave = 4
+
+  // add the left-hand (bass) note, if there is one
+  const bassNoteIndex = notes.findIndex(note => { return note?.isBass })
+
+  if (bassNoteIndex > -1) {
+    const note = notes[bassNoteIndex]!
+    // put the bass note in the octave below middle C
+    playbackNotes.push(`${getNoteName(mode, keyName, note.pitch, true)}3`)
+    // don't remove the base note from notes: we want it repeated in the next octave
+  }
+
+  // add the right-hand notes
+  while (notes.length > 0) {
+    // put any non-bass notes in octaves 4+
+    const nextNotePitch = notes[0]!.pitch
+
+    if (nextNotePitch >= lastNotePitch) {
+      playbackNotes.push(`${getNoteName(mode, keyName, nextNotePitch, true)}${lastNoteOctave}`)
+    } else {
+      // if the next note pitch is less than the last note pitch (e.g. last note 7 and next note 1)
+      // put it in the next octave
+      playbackNotes.push(`${getNoteName(mode, keyName, nextNotePitch, true)}${lastNoteOctave + 1}`)
+      lastNoteOctave ++
+    }
+    lastNotePitch = nextNotePitch
+
+    notes.shift()
+  }
+
+  return playbackNotes
+}
+
+const synth = new Tone.PolySynth().toDestination()
+
+export const playChord = (notes: Note[], keyName: string | null, mode: Mode) => {
+  if (notes.length < 1) {
+    console.warn('No notes selected to play')
+    return
+  }
+
+  const playbackNotes = getPlaybackNotes(notes, keyName || undefined, mode)
+  
+  synth.triggerAttackRelease(playbackNotes, 1, Tone.now(), 1)
 }

@@ -36,7 +36,18 @@ export const scales = {
     return Object.keys(scales[mode]);
   }
 
-  export const getNoteName = (mode: Mode, keyName: string | null, pitch: number): string => {
+
+  const sanitizeNoteName = (noteName: string): string => {
+    // replace special symbols
+    noteName = noteName.replaceAll("♭", "b")
+    noteName = noteName.replaceAll("♯", "#")
+    // remove un-raised 6ths
+    noteName = noteName.replace(/[A-G]b\//g, "")
+    noteName = noteName.replace(/[A-G]\//g, "")
+    return noteName
+  }
+
+  export const getNoteName = (mode: Mode, keyName: string | null, pitch: number, shouldSanitize?: boolean): string => {
     if (!keyName || !pitch) return '';
 
     // @ts-ignore
@@ -44,5 +55,5 @@ export const scales = {
 
     if (!scale) return '';
 
-    return scale[pitch - 1];
+    return shouldSanitize ? sanitizeNoteName(scale[pitch - 1]) : scale[pitch - 1];
   }
