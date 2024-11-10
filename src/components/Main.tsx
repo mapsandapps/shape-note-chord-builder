@@ -20,12 +20,21 @@ export default function Main() {
   const [melody, setMelody] = useState<number | null>(null);
   const [bass, setBass] = useState<number | null>(null);
   const [isFootnoteShowing, setFootnoteShowing] = useState<boolean>(false);
+  const [hasNotesSelected, setHasNotesSelected] = useState<boolean>(false);
   const [anyNotes, setAnyNotes] = useState<Array<number | null>>([null, null, null]);
 
   // FIXME: not sure if i need useEffect here?
   const { keyName, mode, shapeSystem } = settings;
 
   const [chords, setChords] = useState<PopularChords>(filterChords(mode, melody, bass, anyNotes));
+
+  useEffect(() => {
+    if (bass || melody || anyNotes.some(value => value)) {
+      setHasNotesSelected(true)
+    } else {
+      setHasNotesSelected(false)
+    }
+  }, [anyNotes, bass, melody])
 
   // store settings in localstorage
   useEffect(() => {
@@ -153,7 +162,7 @@ export default function Main() {
           <tr>
             <td></td>
             <td>
-              <button onClick={play}>Play</button>
+              <button onClick={play} disabled={!hasNotesSelected}>Play</button>
               <button onClick={reset}>Reset</button>
             </td>
           </tr>
