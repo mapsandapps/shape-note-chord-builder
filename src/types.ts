@@ -55,6 +55,7 @@ export type Settings = {
   keyName: string | null;
   mode: Mode;
   shapeSystem: ShapeSystem;
+  volume: number;
 }
 
 export enum ChordNotation {

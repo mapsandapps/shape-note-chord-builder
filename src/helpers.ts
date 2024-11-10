@@ -187,3 +187,13 @@ export const playChord = (notes: Note[], keyName: string | null, mode: Mode) => 
   
   synth.triggerAttackRelease(playbackNotes, 1, Tone.now(), 1)
 }
+
+export const setVolume = (volume: number, shouldPlayAudio: boolean) => {
+  // @ts-ignore
+  synth.volume.value = volume
+
+  if (shouldPlayAudio) {
+    synth.releaseAll()
+    synth.triggerAttackRelease("C4", 0.2)
+  }
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Chord as ChordType, ChordNotation, Mode, PopularChords, Settings as SettingsType, ShapeSystem, Note } from '../types';
-import { filterChords, playChord } from '../helpers';
+import { filterChords, playChord, setVolume } from '../helpers';
 import Chord from '../components/Chord';
 import PitchPicker from '../components/PitchPicker';
 import Settings from '../components/Settings';
@@ -9,14 +9,24 @@ const defaultSettings: SettingsType = {
   chordNotation: ChordNotation.auto,
   keyName: null,
   mode: Mode.major,
-  shapeSystem: ShapeSystem.four
+  shapeSystem: ShapeSystem.four,
+  volume: -10
 }
 
 export default function Main() {
-  const getStoredSettings = () => { return localStorage.getItem('settings') }
-  const storedSettings = getStoredSettings()
+  const getStoredOrDefaultSettings = (): SettingsType => { 
+    const settingsFromStorage = localStorage.getItem('settings')
 
-  const [settings, setSettings] = useState<SettingsType>(storedSettings ? JSON.parse(storedSettings) : defaultSettings);
+    const parsedSettings = settingsFromStorage ? JSON.parse(settingsFromStorage) : defaultSettings
+
+    // set the volume in the audio playback functionality
+    setVolume(parsedSettings.volume, false)
+    parsedSettings.volume = Number(parsedSettings.volume)
+
+    return parsedSettings
+  }
+
+  const [settings, setSettings] = useState<SettingsType>(getStoredOrDefaultSettings);
   const [melody, setMelody] = useState<number | null>(null);
   const [bass, setBass] = useState<number | null>(null);
   const [isFootnoteShowing, setFootnoteShowing] = useState<boolean>(false);
