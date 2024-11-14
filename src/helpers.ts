@@ -192,6 +192,8 @@ export const playChord = (notes: Note[], keyName: string | null, mode: Mode) => 
     return
   }
 
+  synth!.releaseAll()
+
   const playbackNotes = getPlaybackNotes(notes, keyName || undefined, mode)
   
   synth!.triggerAttackRelease(playbackNotes, 1, Tone.now(), 1)
