@@ -175,7 +175,7 @@ const getPlaybackNotes = (notesToPlay: Note[], keyName: string = 'F', mode: Mode
   return playbackNotes
 }
 
-var synth
+var synth: Tone.PolySynth<Tone.Synth<Tone.SynthOptions>> | undefined
 
 const createSynthIfNeeded = () => {
   if (!synth) {
