@@ -175,9 +175,18 @@ const getPlaybackNotes = (notesToPlay: Note[], keyName: string = 'F', mode: Mode
   return playbackNotes
 }
 
-const synth = new Tone.PolySynth().toDestination()
+var synth
+
+const createSynthIfNeeded = () => {
+  if (!synth) {
+    // don't create the synth until the user has interacted with the page
+    synth = new Tone.PolySynth().toDestination()
+  }
+}
 
 export const playChord = (notes: Note[], keyName: string | null, mode: Mode) => {
+  createSynthIfNeeded()
+
   if (notes.length < 1) {
     console.warn('No notes selected to play')
     return
@@ -188,7 +197,9 @@ export const playChord = (notes: Note[], keyName: string | null, mode: Mode) => 
   synth.triggerAttackRelease(playbackNotes, 1, Tone.now(), 1)
 }
 
-export const setVolume = (volume: number, shouldPlayAudio: boolean) => {
+export const setVolume = (volume: number = -10, shouldPlayAudio: boolean) => {
+  createSynthIfNeeded()
+
   // @ts-ignore
   synth.volume.value = volume
 
