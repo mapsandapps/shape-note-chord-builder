@@ -194,7 +194,7 @@ export const playChord = (notes: Note[], keyName: string | null, mode: Mode) => 
 
   const playbackNotes = getPlaybackNotes(notes, keyName || undefined, mode)
   
-  synth.triggerAttackRelease(playbackNotes, 1, Tone.now(), 1)
+  synth!.triggerAttackRelease(playbackNotes, 1, Tone.now(), 1)
 }
 
 export const setVolume = (volume: number = -10, shouldPlayAudio: boolean) => {
@@ -204,7 +204,7 @@ export const setVolume = (volume: number = -10, shouldPlayAudio: boolean) => {
   synth.volume.value = volume
 
   if (shouldPlayAudio) {
-    synth.releaseAll()
-    synth.triggerAttackRelease("C4", 0.2)
+    synth!.releaseAll()
+    synth!.triggerAttackRelease("C4", 0.2)
   }
 }
