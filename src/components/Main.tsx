@@ -10,6 +10,7 @@ const defaultSettings: SettingsType = {
   keyName: null,
   mode: Mode.major,
   shapeSystem: ShapeSystem.four,
+  shouldPlayKey: true,
   volume: -10
 }
 
@@ -121,7 +122,7 @@ export default function Main() {
       })
     })
 
-    playChord(notes, keyName, mode)
+    playChord(notes, keyName, mode, settings)
   }
 
   return (

@@ -11,7 +11,7 @@ interface SettingsProps {
 
 export default function Settings(props: SettingsProps) {
   const { settings, setSettings } = props;
-  const { chordNotation, keyName, mode, shapeSystem, volume } = settings;
+  const { chordNotation, keyName, mode, shapeSystem, shouldPlayKey, volume } = settings;
 
   const onVolumeSlide = (e: any) => {
     if (!e.target?.value) return
@@ -19,6 +19,10 @@ export default function Settings(props: SettingsProps) {
     // store volume in `settings` so it'll get stored in localstorage
     setSetting('volume', e.target.value)
     setVolume(Number(e.target.value), true)
+  }
+
+  const onTogglePlayKey = (e: any) => {
+    setSetting('shouldPlayKey', e.target.checked)
   }
 
   const setSetting = (key: string, value: any) => {
@@ -86,6 +90,12 @@ export default function Settings(props: SettingsProps) {
           <legend>Volume:</legend>
 
           <input type="range" min="-50" max="5" step="1" defaultValue={volume} onMouseUp={onVolumeSlide} />
+        </fieldset>
+
+        <fieldset>
+          <legend>Play key first when playing chords?:</legend>
+
+          <input type="checkbox" defaultChecked={shouldPlayKey} onClick={onTogglePlayKey} />
         </fieldset>
       </details>
     </>
